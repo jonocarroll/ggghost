@@ -39,39 +39,39 @@ summary.ggghost <- function(call_list, combine = FALSE) {
   
 }
 
-tmp <- data.frame(x = 1:100, y = rnorm(100))
-z %g<% ggplot(tmp, aes(x,y))
-summary(z)
-str(z)
-z <- z + geom_point()
-z
-summary(z, combine = TRUE)
-str(z)
-z <- z + theme_bw()
-z <- z + labs(title = "plot")
-z
-summary(z)
-str(z)
+# tmp <- data.frame(x = 1:100, y = rnorm(100))
+# z %g<% ggplot(tmp, aes(x,y))
+# summary(z)
+# str(z)
+# z <- z + geom_point()
+# z
+# summary(z, combine = TRUE)
+# str(z)
+# z <- z + theme_bw()
+# z <- z + labs(title = "plot")
+# z
+# summary(z)
+# str(z)
 
 
-summary(z)
-#> [[1]]
-#> ggplot(tmp, aes(x, y))
-#> 
-#> [[2]]
-#> geom_point()
-#> 
-#> [[3]]
-#> theme_bw()
-#> 
-#> [[4]]
-#> labs(title = "plot")
-summary(z, combine = TRUE)
-#> [1] "ggplot(tmp, aes(x, y)) + geom_point() + theme_bw() + labs(title = \"plot\")"
-z
-#> produces plot
-str(print(z))
-#> still contains all the grob info
-
-## ggplot still works as normal
-ggplot(tmp) + geom_point(aes(x,y), col="red")
+# summary(z)
+# #> [[1]]
+# #> ggplot(tmp, aes(x, y))
+# #> 
+# #> [[2]]
+# #> geom_point()
+# #> 
+# #> [[3]]
+# #> theme_bw()
+# #> 
+# #> [[4]]
+# #> labs(title = "plot")
+# summary(z, combine = TRUE)
+# #> [1] "ggplot(tmp, aes(x, y)) + geom_point() + theme_bw() + labs(title = \"plot\")"
+# z
+# #> produces plot
+# str(print(z))
+# #> still contains all the grob info
+# 
+# ## ggplot still works as normal
+# ggplot(tmp) + geom_point(aes(x,y), col="red")
