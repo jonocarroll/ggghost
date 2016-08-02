@@ -1,6 +1,8 @@
 # Oh, no! I think I saw a ... *ggghost*
 
-The goal of ggghost is to ...
+Capture the spirit of your `ggplot` calls.
+
+![]("inst/img/scooby.gif")
 
 ## Installation
 
