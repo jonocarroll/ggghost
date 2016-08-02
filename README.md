@@ -1,8 +1,14 @@
-# Oh, no! I think I saw a ... *ggghost*
+# Oh, no! I think I saw a ... *g-g-ghost*
 
 Capture the spirit of your `ggplot` calls.
 
 ![](https://github.com/jonocarroll/ggghost/raw/master/inst/img/scooby.gif)
+
+## Motivation
+
+`ggplot` stores the information needed to build the graph as a `grob`, but that's what the **computer** needs to know about in order to build the graph. As humans, we're more interested in what commands were issued in order to build the graph. Here is one option that solves that problem.
+
+`ggghost` stores the `ggplot` commands (usually separated by `+`) as they are generated, in effect lazily collecting the calls. Once the object is requested, the `print` method combines the individual calls back into the total plotting command and executes it. This is where the call would usually be discarded. Instead, a "ghost" of the commands lingers in the object for further investigation, subsetting, or adding to.
 
 ## Installation
 
@@ -13,7 +19,7 @@ You can install `ggghost` from github with:
 devtools::install_github("jonocarroll/ggghost")
 ```
 
-## Examples
+## Usage
 
 use `%g<%` to initiate storage of the `ggplot` calls then add to the call with each logical call on a new line (@hrbrmstr style)
 
@@ -64,8 +70,8 @@ z2 <- subset(z, c(1,2,4))
 ```
 ![](https://github.com/jonocarroll/ggghost/raw/master/inst/img/example2.png)
 
+The object still contains all the grob info, it's just stored as calls rather than a completed image.
 ```{r}
-## the object still contains all the grob info
 str(print(z))
 #> List of 3
 #> $ data :List of 1
@@ -92,7 +98,8 @@ str(print(z))
 #> [... truncated ...]
 ```
 
+`ggplot` still works as normal if you want to avoid storing the calls.
 ```{r}
-## ggplot still works as normal
-ggplot(tmp) + geom_point(aes(x,y), col="red")
+ggplot(tmp) + geom_point(aes(x,y), col = "red")
 ```
+![](https://github.com/jonocarroll/ggghost/raw/master/inst/img/example3.png)
