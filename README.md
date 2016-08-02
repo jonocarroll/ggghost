@@ -2,11 +2,11 @@
 
 Capture the spirit of your `ggplot` calls.
 
-![]("inst/img/scooby.gif")
+![]("https://github.com/jonocarroll/ggghost/raw/master/inst/img/scooby.gif")
 
 ## Installation
 
-You can install ggghost from github with:
+You can install `ggghost` from github with:
 
 ```{r}
 # install.packages("devtools")
