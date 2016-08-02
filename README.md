@@ -47,7 +47,7 @@ summary(z, combine = TRUE)
 #> [1] "ggplot(tmp, aes(x, y)) + geom_point() + theme_bw() + labs(title = \"plot\")"
 z
 ```
-![](https://github.com/jonocarroll/ggghost/raw/master/inst/img/example1.gif)
+![](https://github.com/jonocarroll/ggghost/raw/master/inst/img/example1.png)
 
 ```{r}
 ## the object still contains all the grob info
