@@ -21,6 +21,7 @@ tmp <- data.frame(x = 1:100, y = rnorm(100))
 ## use %g<% to initiate storage of the ggplot calls
 ## then add to the call with each logical call on 
 ## a new line (@hrbrmstr style)
+library(ggplot2)
 z %g<% ggplot(tmp, aes(x,y))
 z <- z + geom_point()
 z <- z + theme_bw()
@@ -45,13 +46,15 @@ summary(z)
 summary(z, combine = TRUE)
 #> [1] "ggplot(tmp, aes(x, y)) + geom_point() + theme_bw() + labs(title = \"plot\")"
 z
-#> produces plot
+```
+![](https://github.com/jonocarroll/ggghost/raw/master/inst/img/example1.gif)
 
-## still contains all the grob info
+```{r}
+## the object still contains all the grob info
 str(print(z))
+```
 
-
-```r
+```{r}
 ## ggplot still works as normal
 ggplot(tmp) + geom_point(aes(x,y), col="red")
 ```
