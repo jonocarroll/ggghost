@@ -15,12 +15,11 @@ devtools::install_github("jonocarroll/ggghost")
 
 ## Examples
 
+use `%g<%` to initiate storage of the `ggplot` calls then add to the call with each logical call on a new line (@hrbrmstr style)
+
 ```{r}
 tmp <- data.frame(x = 1:100, y = rnorm(100))
 
-## use %g<% to initiate storage of the ggplot calls
-## then add to the call with each logical call on 
-## a new line (@hrbrmstr style)
 library(ggplot2)
 z %g<% ggplot(tmp, aes(x,y))
 z <- z + geom_point()
@@ -28,7 +27,7 @@ z <- z + theme_bw()
 z <- z + labs(title = "My cool ggplot")
 ```
 
-This invisibly stores the `ggplot` calls in a list.
+This invisibly stores the `ggplot` calls in a list which can be reviewed
 
 ```{r}
 summary(z)
@@ -50,6 +49,20 @@ summary(z, combine = TRUE)
 z
 ```
 ![](https://github.com/jonocarroll/ggghost/raw/master/inst/img/example1.png)
+
+Better yet, the list can be subset, removing parts of the call
+```{r}
+z2 <- subset(z, c(1,2,4))
+#> [[1]]
+#> ggplot(tmp, aes(x, y))
+#> 
+#> [[2]]
+#> geom_point()
+#> 
+#> [[3]]
+#> labs(title = "My cool ggplot")
+```
+![](https://github.com/jonocarroll/ggghost/raw/master/inst/img/example2.png)
 
 ```{r}
 ## the object still contains all the grob info
