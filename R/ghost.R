@@ -33,7 +33,10 @@ is.ggghost <- function(x) inherits(x, "ggghost")
     else if (is.ggghost(e1)) { 
         call_to_remove <- match.call()[[3]]
         if (!grepl(sub("\\(.*$", "", call_to_remove), as.character(summary(e1, combine = TRUE)))) {
-            warning("can't find that call in the call list")
+            warning("ggghostbuster: can't find that call in the call list")
+            return(e1)
+        } else if (sub("\\(.*$", "", call_to_remove) == "ggplot") {
+            warning("ggghostbuster: can't remove the ggplot call itself")
             return(e1)
         }
         structure(unclass(e1)[-grep(sub("\\(.*$", "", call_to_remove), unclass(e1))], class = c("ggghost", "gg"))
