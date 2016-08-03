@@ -1,11 +1,13 @@
 Package: ggghost
-Title: What the Package Does (one line, title case)
+Title: Capture the Spirit of Your ggplot Calls
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
+Authors@R: person("Jonathan", "Carroll", email = "jono@jcarroll.com.au", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 Depends:
-    R (>= 3.3.0)
-License: What license is it under?
+    R (>= 3.3.0),
+    ggplot2
+License: GPL(>=3)
 Encoding: UTF-8
 LazyData: true
+BugReports: https://github.com/jonocarroll/ggghost/issues
 RoxygenNote: 5.0.1
