@@ -68,5 +68,5 @@ animate.ggghost <- function(call_list, gifname, interval = 1, ani.width = 600, a
 animation::saveGIF({
   animation::ani.options(interval = interval)
   sapply(k, function(x) print(eval(parse(text = x))))
-}, movie.name = gifname, ani.width = width, ani.height = ani.height)
+}, movie.name = gifname, ani.width = ani.width, ani.height = ani.height)
 }
