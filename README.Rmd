@@ -90,3 +90,8 @@ str(print(z))
 ```{r}
 ggplot(tmp) + geom_point(aes(x,y), col = "red")
 ```
+
+Show the process of building up the plot as a (re-)animation
+```{r}
+lazarus(z, "mycoolplot.gif")
+```
