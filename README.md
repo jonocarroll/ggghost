@@ -126,3 +126,7 @@ ggplot(tmp) + geom_point(aes(x,y), col = "red")
 ```
 
 ![](inst/img/README-unnamed-chunk-10-1.png)
+
+Show the process of building up the plot as a (re-)animation
+
+![](https://github.com/jonocarroll/ggghost/raw/master/inst/img/ggghost.gif)
