@@ -12,3 +12,4 @@ Encoding: UTF-8
 LazyData: true
 BugReports: https://github.com/jonocarroll/ggghost/issues
 RoxygenNote: 5.0.1
+Suggests: testthat

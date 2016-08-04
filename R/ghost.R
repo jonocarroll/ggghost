@@ -15,21 +15,25 @@
 #' @export
 is.ggghost <- function(x) inherits(x, "ggghost")
 
+#' @importFrom ggplot2 is.theme is.ggplot
 #' @export
 "+.gg" <- function(e1, e2) {
     # Get the name of what was passed in as e2, and pass along so that it
     # can be displayed in error messages
     e2name <- deparse(substitute(e2))
     
-    if      (is.theme(e1))  ggplot2:::add_theme(e1, e2, e2name)
-    else if (is.ggplot(e1)) ggplot2:::add_ggplot(e1, e2, e2name)
+    if      (ggplot2::is.theme(e1))  ggplot2:::add_theme(e1, e2, e2name)
+    else if (ggplot2::is.ggplot(e1)) ggplot2:::add_ggplot(e1, e2, e2name)
     else if (is.ggghost(e1)) structure(append(e1, match.call()[[3]]), class = c("ggghost", "gg"))
 }
 
+# #' @importFrom ggplot2 add_theme, add_ggplot
+
+#' @importFrom ggplot2 is.theme is.ggplot
 #' @export
 "-.ggghost" <- function(e1, e2) {
-    if      (is.theme(e1))  stop("not implemented for ggplot2 themes")
-    else if (is.ggplot(e1)) stop("not implemented for ggplot2 plots")
+    if      (ggplot2::is.theme(e1))  stop("not implemented for ggplot2 themes")
+    else if (ggplot2::is.ggplot(e1)) stop("not implemented for ggplot2 plots")
     else if (is.ggghost(e1)) { 
         call_to_remove <- match.call()[[3]]
         if (!grepl(sub("\\(.*$", "", call_to_remove), as.character(summary(e1, combine = TRUE)))) {
@@ -44,31 +48,40 @@ is.ggghost <- function(x) inherits(x, "ggghost")
 }
 
 #' @export
-print.ggghost <- function(call_list) {
-    print(eval(parse(text = paste(call_list, collapse = " + "))))
+print.ggghost <- function(x, ...) {
+    print(eval(parse(text = paste(x, collapse = " + "))))
 }
 
 
 #' @export
-summary.ggghost <- function(call_list, combine = FALSE) {
+summary.ggghost <- function(object, ...) {
+    # dots <- list(...)
+    dots <- eval(substitute(alist(...)))
+    combine = "combine" %in% names(dots)
     if (combine) 
-        paste(call_list, collapse = " + ") 
+        paste(object, collapse = " + ") 
     else 
-        print(head(call_list, n = length(call_list)))
+        print(utils::head(object, n = length(object)))
 }
 
 #' @export
-subset.ggghost <- function(x, i) {
-    structure(unclass(x)[i], class = c("ggghost", "gg"))
+subset.ggghost <- function(x, ...) {
+    structure(unclass(x)[...], class = c("ggghost", "gg"))
 }
 
+#' @importFrom animation ani.options saveGIF
 #' @export
-reanimate <- function(call_list, gifname, interval = 1, ani.width = 600, ani.height = 600) {
-    k <- Reduce(function(x1, x2) paste(x1, x2, sep = " + "), as.character(unlist(z)), accumulate = TRUE)
-animation::saveGIF({
-  animation::ani.options(interval = interval)
-  sapply(k, function(x) print(eval(parse(text = x))))
-}, movie.name = gifname, ani.width = ani.width, ani.height = ani.height)
+reanimate <- function(call_list, gifname = "ggghost.gif", interval = 1, ani.width = 600, ani.height = 600) {
+    stopifnot(length(call_list) > 1)
+    animation::ani.options(interval = interval, ani.width = ani.width, ani.height = ani.height)
+    animation::saveGIF({
+        ggtmp <- call_list[[1]]
+        print(eval(ggtmp))
+        for (i in 2:length(call_list)) {
+            ggtmp <- eval(ggtmp) + eval(call_list[[i]])
+            print(ggtmp)
+        }
+    }, movie.name = gifname)
 }
 
 #' @export

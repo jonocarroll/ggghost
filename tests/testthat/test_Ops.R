@@ -1,0 +1,23 @@
+library(ggghost)
+context("Ops (+, -)")
+
+df <- data.frame(x = 1:100, y = rnorm(100))
+gg1 <- ggplot2::ggplot(df, aes(x,y)) 
+gg2 <- ggplot2::geom_point()
+ggx <- gg1 + gg2
+
+test_that("+ behaves as normal for ordinary objects", {
+  expect_equal(2L + 3L, 5L)
+  expect_equal(2. + 3., 5.)
+  expect_equal(c(2L, 3.) + c(1L, 1.), c(3., 4.))
+  expect_error("a" + "b")
+  expect_s3_class(ggx, "gg")
+})
+
+ggghostx %g<% ggplot2::ggplot(df, aes(x,y))
+ggghostx <- ggghostx + ggplot2::geom_point()
+
+test_that("+ produces new behaviour", {
+  expect_s3_class(ggghostx, "ggghost")
+  expect_s3_class(eval(ggghostx), "gg")
+})
