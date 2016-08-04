@@ -63,10 +63,13 @@ subset.ggghost <- function(x, i) {
 }
 
 #' @export
-animate.ggghost <- function(call_list, gifname, interval = 1, ani.width = 600, ani.height = 600) {
+reanimate <- function(call_list, gifname, interval = 1, ani.width = 600, ani.height = 600) {
     k <- Reduce(function(x1, x2) paste(x1, x2, sep = " + "), as.character(unlist(z)), accumulate = TRUE)
 animation::saveGIF({
   animation::ani.options(interval = interval)
   sapply(k, function(x) print(eval(parse(text = x))))
 }, movie.name = gifname, ani.width = ani.width, ani.height = ani.height)
 }
+
+#' @export
+lazarus <- reanimate
