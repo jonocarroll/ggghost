@@ -36,9 +36,11 @@ Capture the spirit of your `ggplot` calls.
 
 ## Motivation
 
-`ggplot` stores the information needed to build the graph as a `grob`, but that's what the **computer** needs to know about in order to build the graph. As humans, we're more interested in what commands were issued in order to build the graph. Here is one option that solves that problem.
+`ggplot` stores the information needed to build the graph as a `grob`, but that's what the **computer** needs to know about in order to build the graph. As humans, we're more interested in what commands were issued in order to build the graph. For good reproducibility, the calls need to be applied to the relevant data. While this is somewhat available by deconstructing the `grob`, it's not the simplest approach. 
 
-`ggghost` stores the `ggplot` commands (usually separated by `+`) as they are generated, in effect lazily collecting the calls. Once the object is requested, the `print` method combines the individual calls back into the total plotting command and executes it. This is where the call would usually be discarded. Instead, a "ghost" of the commands lingers in the object for further investigation, subsetting, adding to, or subtracting from.
+Here is one option that solves that problem.
+
+`ggghost` stores the data used in a `ggplot()` call, and collects `ggplot` commands (usually separated by `+`) as they are applied, in effect lazily collecting the calls. Once the object is requested, the `print` method combines the individual calls back into the total plotting command and executes it. This is where the call would usually be discarded. Instead, a "ghost" of the commands lingers in the object for further investigation, subsetting, adding to, or subtracting from.
 
 ## Installation
 
@@ -53,12 +55,15 @@ devtools::install_github("jonocarroll/ggghost")
 
 use `%g<%` to initiate storage of the `ggplot` calls then add to the call with each logical call on a new line (@hrbrmstr style)
 
-```{r, results='hide'}
-tmp <- data.frame(x = 1:100, y = rnorm(100))
+```{r}
+tmpdata <- data.frame(x = 1:100, y = rnorm(100))
+head(tmpdata)
+```
 
+```{r, results='hide'}
 library(ggplot2)
 library(ggghost)
-z %g<% ggplot(tmp, aes(x,y))
+z %g<% ggplot(tmpdata, aes(x,y))
 z <- z + geom_point(col = "steelblue")
 z <- z + theme_bw()
 z <- z + labs(title = "My cool ggplot")
@@ -81,6 +86,8 @@ The plot can be generated using a `print` method
 z
 ```
 
+which re-evaluates the list of calls and applies them to the saved data, meaning that the plot remains reproducible even if the data source is changed/destroyed.
+
 The call list can be subset, removing parts of the call
 ```{r}
 (z2 <- subset(z, c(1,2,6)))
@@ -95,7 +102,7 @@ z3
 
 Calls are removed based on matching to the regex `\\(.*$` (from the first bracket to the end of the call), so arguments are irrelevant.
 
-The object still contains all the grob info, it's just stored as calls rather than a completed image.
+The object still generates all the grob info, it's just stored as calls rather than a completed image.
 ```{r, fig.show='hide'}
 str(print(z))
 #> [... truncated ...]
@@ -103,10 +110,36 @@ str(print(z))
 
 `ggplot` still works as normal if you want to avoid storing the calls.
 ```{r}
-ggplot(tmp) + geom_point(aes(x,y), col = "red")
+ggplot(tmpdata) + geom_point(aes(x,y), col = "red")
 ```
 
-Show the process of building up the plot as a (re-)animation
+Since the object is a list, we can stepwise show the process of building up the plot as a (re-)animation
 ```{r}
 lazarus(z, "mycoolplot.gif")
 ```
+
+For full reproducibility, the entire structure can be saved to an object for re-loading at a later point. This may not have made much sense for a `ggplot2` object, but now both the original data and the calls to generate the plot are saved. Should the environment that generated the plot be destroyed, all is not lost.
+```{r}
+saveRDS(z, file = "inst/extdata/mycoolplot.rds")
+rm(z)
+rm(tmpdata)
+exists("z")
+exists("tmpdata")
+```
+
+Reading the `ggghost` object back to the session, both the relevant data and plot-generating calls can be re-executed. 
+```{r}
+z <- readRDS("inst/extdata/mycoolplot.rds")
+str(z)
+
+recover_data(z)
+head(tmpdata)
+z
+```
+
+We now have a proper reproducible graphic.
+
+## Caveats
+
+* The data _must_ be used as an argument in the `ggplot` call, not piped in to it. Pipelines such as `z %g<% tmpdata %>% ggplot()` won't work... yet.
+* Only one original data set will be stored; the one in the original `ggplot(data = x)` call. If you require supplementary data for some `geom` then you need manage storage/consistency of that.

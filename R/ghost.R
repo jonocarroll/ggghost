@@ -1,16 +1,37 @@
+#' Begin constructing a cache
+#'
+#' @param lhs LHS of call
+#' @param rhs RHS of call
+#'
+#' @return NULL
+#' 
 #' @export
 `%g<%` <- function(lhs, rhs) {
     match     <- match.call()
     match_lhs <- match[[2]]
     match_rhs <- match[[3]]
     
-    new_obj <- structure(list(as.call(match_rhs)), class = c("ggghost", "gg"))
-
     parent <- parent.frame()
+    
+    new_obj <- structure(list(as.call(match_rhs)), class = c("ggghost", "gg"))
+    data_name <- eval(parse(text = sub("ggplot[^(]*", "identify_data", deparse(summary(new_obj)[[1]]))))
+    attr(new_obj, "data") <- list(data_name = data_name,
+                                  data      = get(data_name, envir = parent))
+
     assign(as.character(match_lhs), new_obj, envir = parent)
     
     return(invisible(NULL))
 }
+
+
+#' @export
+identify_data <- function(data, mapping = ggplot2::aes(), ..., environment = parent.frame()) {
+    match <- match.call()
+    data_name <- match[["data"]]
+    if (is.null(data_name)) stop("could not identify data from call.")
+    return(as.character(data_name))
+}
+
 
 #' @export
 is.ggghost <- function(x) inherits(x, "ggghost")
@@ -22,12 +43,14 @@ is.ggghost <- function(x) inherits(x, "ggghost")
     # can be displayed in error messages
     e2name <- deparse(substitute(e2))
     
-    if      (ggplot2::is.theme(e1))  ggplot2:::add_theme(e1, e2, e2name)
-    else if (ggplot2::is.ggplot(e1)) ggplot2:::add_ggplot(e1, e2, e2name)
-    else if (is.ggghost(e1)) structure(append(e1, match.call()[[3]]), class = c("ggghost", "gg"))
+    if      (ggplot2::is.theme(e1))  return(ggplot2:::add_theme(e1, e2, e2name))
+    else if (ggplot2::is.ggplot(e1)) return(ggplot2:::add_ggplot(e1, e2, e2name))
+    else if (is.ggghost(e1)) {
+        new_obj <- structure(append(e1, match.call()[[3]]), class = c("ggghost", "gg"))
+        attr(new_obj, "data") <- attr(e1, "data")
+        return(new_obj)
+    }
 }
-
-# #' @importFrom ggplot2 add_theme, add_ggplot
 
 #' @importFrom ggplot2 is.theme is.ggplot
 #' @export
@@ -43,16 +66,28 @@ is.ggghost <- function(x) inherits(x, "ggghost")
             warning("ggghostbuster: can't remove the ggplot call itself")
             return(e1)
         }
-        structure(unclass(e1)[-grep(sub("\\(.*$", "", call_to_remove), unclass(e1))], class = c("ggghost", "gg"))
+        new_obj <- structure(unclass(e1)[-grep(sub("\\(.*$", "", call_to_remove), unclass(e1))], class = c("ggghost", "gg"))
+        attr(new_obj, "data") <- attr(e1, "data")
+        return(new_obj)
     }
 }
 
+
 #' @export
 print.ggghost <- function(x, ...) {
-    print(eval(parse(text = paste(x, collapse = " + "))))
-    return(invisible(NULL))
+    recover_data(x)
+    plotdata <- eval(parse(text = paste(x, collapse = " + ")))
+    print(plotdata)
+    return(invisible(plotdata))
 }
 
+
+# @export
+# grob <- function(object) {
+#     stopifnot(inherits(object, "ggghost"))
+#     recover_data(x)
+#     return(print(eval(parse(text = paste(x, collapse = " + ")))))
+# }
 
 #' @export
 summary.ggghost <- function(object, ...) {
@@ -61,14 +96,17 @@ summary.ggghost <- function(object, ...) {
     if (combine) 
         return(paste(object, collapse = " + "))
     else 
-        # print(utils::head(object, n = length(object)))
         return(utils::head(object, n = length(object)))
 }
 
+
 #' @export
 subset.ggghost <- function(x, ...) {
-    structure(unclass(x)[...], class = c("ggghost", "gg"))
+    new_obj <- structure(unclass(x)[...], class = c("ggghost", "gg"))
+    attr(new_obj, "data") <- attr(x, "data")
+    return(new_obj)
 }
+
 
 #' @importFrom animation ani.options saveGIF
 #' @export
@@ -85,5 +123,14 @@ reanimate <- function(call_list, gifname = "ggghost.gif", interval = 1, ani.widt
     }, movie.name = gifname)
 }
 
+
 #' @export
 lazarus <- reanimate
+
+
+#' @export
+recover_data <- function(x) {
+    parent <- parent.frame()
+    assign(attr(x, "data")$data_name, attr(x, "data")$data, envir = parent)
+    return(invisible(NULL))
+}
