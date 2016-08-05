@@ -1,8 +1,7 @@
 .onAttach <- function(...) {
-#   note <- "
-# The message about masking + that follows occurs because I need to 
-# avoid conflicts with ggplot2's + operator.
-# Rest assured that I have not altered the default behaviour of +.
-# You can check the code to confirm this."
-#   packageStartupMessage(paste(strwrap(note), collapse = "\n"))
+  AttachNote <- "
+Please be aware: this development package has the potential to mess with your ggplot2 calls.
+If you find a bug, please let me know: https://github.com/jonocarroll/ggghost/issues
+"
+  packageStartupMessage(paste(strwrap(AttachNote), collapse = "\n"))
 }

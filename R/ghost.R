@@ -50,18 +50,19 @@ is.ggghost <- function(x) inherits(x, "ggghost")
 #' @export
 print.ggghost <- function(x, ...) {
     print(eval(parse(text = paste(x, collapse = " + "))))
+    return(invisible(NULL))
 }
 
 
 #' @export
 summary.ggghost <- function(object, ...) {
-    # dots <- list(...)
     dots <- eval(substitute(alist(...)))
     combine = "combine" %in% names(dots)
     if (combine) 
-        paste(object, collapse = " + ") 
+        return(paste(object, collapse = " + "))
     else 
-        print(utils::head(object, n = length(object)))
+        # print(utils::head(object, n = length(object)))
+        return(utils::head(object, n = length(object)))
 }
 
 #' @export
