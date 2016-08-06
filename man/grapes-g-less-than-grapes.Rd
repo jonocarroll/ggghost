@@ -2,7 +2,7 @@
 % Please edit documentation in R/ghost.R
 \name{\%g<\%}
 \alias{\%g<\%}
-\title{Begin constructing a cache}
+\title{Begin constructing a ggghost cache}
 \usage{
 lhs \%g<\% rhs
 }
@@ -11,7 +11,24 @@ lhs \%g<\% rhs
 
 \item{rhs}{RHS of call}
 }
+\value{
+Assigns the \code{ggghost} structure to the \code{lhs} symbol.
+}
 \description{
-Begin constructing a cache
+The data and initial \code{ggpot()} call are stored as a list (call) with 
+attribute (data).
+}
+\details{
+The data must be passed into the \code{ggplot} call directly. 
+  Passing this in via a magrittr pipe remains as a future improvement. The
+  newly created \code{ggghost} object is a list of length 1 containing the 
+  \code{ggplot} call, with attribute \code{data}; another list, containing
+  the \code{data_name} and \code{data} itself.
+}
+\examples{
+## create a ggghost object
+tmpdata <- data.frame(x = 1:100, y = rnorm(100))
+
+z \%g<\% ggplot(tmpdata, aes(x,y))
 }
 

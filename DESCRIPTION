@@ -1,8 +1,9 @@
 Package: ggghost
 Title: Capture the Spirit of Your ggplot Calls
 Version: 0.0.0.9000
-Authors@R: person("Jonathan", "Carroll", email = "jono@jcarroll.com.au", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: person("Jonathan", "Carroll", email = "ggghost@jcarroll.com.au", role = c("aut", "cre"))
+Maintainer: Jonathan Carroll <ggghost@jcarroll.com.au>
+Description: Creates a reproducible ggplot object by storing the data and calls. 
 Depends:
     R (>= 3.3.0),
     ggplot2,

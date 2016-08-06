@@ -5,16 +5,18 @@ output:
 html_preview: false
 ---
 
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
-[![Linux/Mac Travis Build Status](https://img.shields.io/travis/jonocarroll/ggghost/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/jonocarroll/ggghost)
-[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jonocarroll/ggghost/master.svg?label=Windows)](https://ci.appveyor.com/project/jonocarroll/ggghost)
-[![codecov](https://codecov.io/gh/jonocarroll/ggghost/branch/master/graph/badge.svg)](https://codecov.io/gh/jonocarroll/ggghost)
-[![GitHub forks](https://img.shields.io/github/forks/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/network)
-[![GitHub stars](https://img.shields.io/github/stars/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/stargazers)
-[![Twitter](https://img.shields.io/twitter/url/https/github.com/jonocarroll/ggghost.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggghost)](https://cran.r-project.org/package=ggghost)
 [![packageversion](https://img.shields.io/badge/Package%20version-0.0.0.9000-orange.svg?style=flat-square)](commits/master)
 [![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
+
+[![Linux/Mac Travis Build Status](https://img.shields.io/travis/jonocarroll/ggghost/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/jonocarroll/ggghost)
+[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jonocarroll/ggghost/master.svg?label=Windows)](https://ci.appveyor.com/project/jonocarroll/ggghost)
+[![codecov](https://codecov.io/gh/jonocarroll/ggghost/branch/master/graph/badge.svg)](https://codecov.io/gh/jonocarroll/ggghost)
+
+[![GitHub forks](https://img.shields.io/github/forks/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/network)
+[![GitHub stars](https://img.shields.io/github/stars/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/stargazers)
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/jonocarroll/ggghost.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -28,11 +30,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Oh, no! I think I saw a ... *g-g-ghost*
-
-Capture the spirit of your `ggplot` calls.
+# :ghost:  _Oh, no! I think I saw a ... g-g-ghost_
 
 ![](https://github.com/jonocarroll/ggghost/raw/master/inst/img/scooby.gif)
+
+Capture the spirit of your `ggplot` calls.
 
 ## Motivation
 
@@ -102,10 +104,17 @@ z3
 
 Calls are removed based on matching to the regex `\\(.*$` (from the first bracket to the end of the call), so arguments are irrelevant.
 
-The object still generates all the grob info, it's just stored as calls rather than a completed image.
+The object still generates all the `grob` info, it's just stored as calls rather than a completed image.
 ```{r, fig.show='hide'}
 str(print(z))
 #> [... truncated ...]
+```
+
+Since the `grob` info is still produced, normal `ggplot2` operators can be applied *after* the `print` statement, such as replacing the data
+```{r}
+xvals <- seq(0,2*pi,0.1)
+tmpdata_new <- data.frame(x = xvals, y = sin(xvals))
+print(z - geom_smooth()) %+% tmpdata_new
 ```
 
 `ggplot` still works as normal if you want to avoid storing the calls.
@@ -143,3 +152,4 @@ We now have a proper reproducible graphic.
 
 * The data _must_ be used as an argument in the `ggplot` call, not piped in to it. Pipelines such as `z %g<% tmpdata %>% ggplot()` won't work... yet.
 * Only one original data set will be stored; the one in the original `ggplot(data = x)` call. If you require supplementary data for some `geom` then you need manage storage/consistency of that.
+* For removing `labs` calls, an argument _must_ be present. It doesn't need to be the actual one (all will be removed) but it must evaluate in scope. `TRUE` will do fine.
