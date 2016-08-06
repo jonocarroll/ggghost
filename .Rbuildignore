@@ -4,3 +4,7 @@
 ^README-.*\.png$
 ^.travis.yml$
 ^appveyor.yml$
+^cran$
+^cran-comments\.md$
+^cran-comments\.html$
+^\.gitignore$
