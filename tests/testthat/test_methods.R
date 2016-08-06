@@ -13,7 +13,8 @@ summary3 <- summary(ggsubset)
 summary4 <- summary(ggsubset, combine = TRUE)
 
 test_that("ggghost methods behave correctly", {
-  # expect_null(print(ggghostx))
+  expect_s3_class(print(ggghostx), "gg")
+  expect_s3_class(print(ggghostx), "ggplot")
 
   expect_type(summary1, "list")
   expect_identical(length(summary1), 3L)

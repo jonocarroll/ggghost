@@ -114,6 +114,7 @@ reanimate <- function(call_list, gifname = "ggghost.gif", interval = 1, ani.widt
     stopifnot(length(call_list) > 1)
     animation::ani.options(interval = interval, ani.width = ani.width, ani.height = ani.height)
     animation::saveGIF({
+        recover_data(call_list)
         ggtmp <- call_list[[1]]
         print(eval(ggtmp))
         for (i in 2:length(call_list)) {
@@ -121,6 +122,7 @@ reanimate <- function(call_list, gifname = "ggghost.gif", interval = 1, ani.widt
             print(ggtmp)
         }
     }, movie.name = gifname)
+    return(invisible(TRUE))
 }
 
 
