@@ -98,6 +98,7 @@ is.ggghost <- function(x) inherits(x, "ggghost")
     }
 }
 
+
 #' Remove a Call from a ggghost Object
 #' 
 #' Calls can be removed from the \code{ggghost} object via regex matching of the
@@ -251,10 +252,6 @@ subset.ggghost <- function(x, ...) {
 }
 
 
-
-
-
-
 #' Bring a ggplot to Life (re-animate)
 #' 
 #' Creates an animation showing the stepwise process of building up a ggplot.
@@ -296,7 +293,6 @@ reanimate <- function(object, gifname = "ggghost.gif", interval = 1, ani.width =
     }, movie.name = gifname)
     return(invisible(TRUE))
 }
-
 
 #' @export
 #' @rdname reanimate

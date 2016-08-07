@@ -1,17 +1,16 @@
-[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggghost)](https://cran.r-project.org/package=ggghost) [![packageversion](https://img.shields.io/badge/Package%20version-0.0.0.9000-orange.svg?style=flat-square)](commits/master) [![Last-changedate](https://img.shields.io/badge/last%20change-2016--08--06-yellowgreen.svg)](/commits/master)
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggghost)](https://cran.r-project.org/package=ggghost) [![packageversion](https://img.shields.io/badge/Package%20version-0.0.0.9000-orange.svg?style=flat-square)](commits/master) [![Last-changedate](https://img.shields.io/badge/last%20change-2016--08--07-yellowgreen.svg)](/commits/master)
 
 [![Linux/Mac Travis Build Status](https://img.shields.io/travis/jonocarroll/ggghost/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/jonocarroll/ggghost) [![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jonocarroll/ggghost/master.svg?label=Windows)](https://ci.appveyor.com/project/jonocarroll/ggghost) [![codecov](https://codecov.io/gh/jonocarroll/ggghost/branch/master/graph/badge.svg)](https://codecov.io/gh/jonocarroll/ggghost)
 
-[![GitHub forks](https://img.shields.io/github/forks/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/network) [![GitHub stars](https://img.shields.io/github/stars/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/stargazers) [![Twitter](https://img.shields.io/twitter/url/https/github.com/jonocarroll/ggghost.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
+[![Github All Releases](https://img.shields.io/github/downloads/jonocarroll/ggghost/total.svg?maxAge=2592000)]() [![GitHub forks](https://img.shields.io/github/forks/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/network) [![GitHub stars](https://img.shields.io/github/stars/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/stargazers) [![Twitter](https://img.shields.io/twitter/url/https/github.com/jonocarroll/ggghost.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 :ghost: *Oh, no! I think I saw a ... g-g-ghost*
-=================================================
+===============================================
 
 ![](https://github.com/jonocarroll/ggghost/raw/master/inst/img/scooby.gif)
 
 Capture the spirit of your `ggplot` calls.
-
 
 Motivation
 ----------
@@ -41,12 +40,12 @@ use `%g<%` to initiate storage of the `ggplot` calls then add to the call with e
 tmpdata <- data.frame(x = 1:100, y = rnorm(100))
 head(tmpdata)
 #>   x          y
-#> 1 1  1.0263606
-#> 2 2  1.1015135
-#> 3 3  0.4156634
-#> 4 4  0.2260132
-#> 5 5 -0.7073620
-#> 6 6 -0.8725566
+#> 1 1 -0.1251826
+#> 2 2  1.1832852
+#> 3 3 -0.6089940
+#> 4 4 -0.7293031
+#> 5 5 -0.1092292
+#> 6 6  0.0576761
 ```
 
 ``` r
@@ -127,9 +126,8 @@ str(print(z))
 #> List of 9
 #>  $ data       :'data.frame': 100 obs. of  2 variables:
 #>   ..$ x: int [1:100] 1 2 3 4 5 6 7 8 9 10 ...
-#>   ..$ y: num [1:100] 1.026 1.102 0.416 0.226 -0.707 ...
+#>   ..$ y: num [1:100] -0.125 1.183 -0.609 -0.729 -0.109 ...
 #>  $ layers     :List of 2
-#>   ..$ :Classes 'LayerInstance', 'Layer', 'ggproto' <ggproto object: Class LayerInstance, Layer>
 #> [... truncated ...]
 ```
 
@@ -141,7 +139,7 @@ tmpdata_new <- data.frame(x = xvals, y = sin(xvals))
 print(z - geom_smooth()) %+% tmpdata_new
 ```
 
-![](inst/img/README-unnamed-chunk-11-1.png)![](inst/img/README-unnamed-chunk-11-2.png)
+![](inst/img/README-unnamed-chunk-11-2.png)
 
 `ggplot` still works as normal if you want to avoid storing the calls.
 
@@ -188,17 +186,18 @@ str(z)
 #>   ..$ data_name: chr "tmpdata"
 #>   ..$ data     :'data.frame':    100 obs. of  2 variables:
 #>   .. ..$ x: int [1:100] 1 2 3 4 5 6 7 8 9 10 ...
-#>   .. ..$ y: num [1:100] 1.026 1.102 0.416 0.226 -0.707 ...
+#>   .. ..$ y: num [1:100] -0.125 1.183 -0.609 -0.729 -0.109 ...
 
 recover_data(z)
 head(tmpdata)
 #>   x          y
-#> 1 1  1.0263606
-#> 2 2  1.1015135
-#> 3 3  0.4156634
-#> 4 4  0.2260132
-#> 5 5 -0.7073620
-#> 6 6 -0.8725566
+#> 1 1 -0.1251826
+#> 2 2  1.1832852
+#> 3 3 -0.6089940
+#> 4 4 -0.7293031
+#> 5 5 -0.1092292
+#> 6 6  0.0576761
+
 z
 ```
 
