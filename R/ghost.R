@@ -75,7 +75,7 @@ is.ggghost <- function(x) inherits(x, "ggghost")
 #' @return Appends the \code{e2} call to the \code{ggghost} structure
 #' @rdname plus-ggghost
 #' 
-#' @importFrom ggplot2 is.theme is.ggplot
+#' @importFrom ggplot2 is.theme is.ggplot %+%
 #' @export
 #' 
 #' @examples
@@ -89,19 +89,14 @@ is.ggghost <- function(x) inherits(x, "ggghost")
 #' z <- z + labs(x = "x axis", y = "y axis")
 #' z <- z + geom_smooth()
 "+.gg" <- function(e1, e2) {
-    # Get the name of what was passed in as e2, and pass along so that it
-    # can be displayed in error messages
-    e2name <- deparse(substitute(e2))
-    
-    if      (ggplot2::is.theme(e1))  return(ggplot2:::add_theme(e1, e2, e2name))
-    else if (ggplot2::is.ggplot(e1)) return(ggplot2:::add_ggplot(e1, e2, e2name))
-    else if (is.ggghost(e1)) {
+    if (is.ggghost(e1)) {
         new_obj <- structure(append(e1, match.call()[[3]]), class = c("ggghost", "gg"))
         attr(new_obj, "data") <- attr(e1, "data")
-        return(new_obj)
+        return(new_obj) 
+    } else {
+        return(e1 %+% e2)
     }
 }
-
 
 #' Remove a Call from a ggghost Object
 #' 

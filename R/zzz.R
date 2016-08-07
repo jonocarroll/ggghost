@@ -5,3 +5,8 @@ If you find a bug, please let me know: https://github.com/jonocarroll/ggghost/is
 "
   packageStartupMessage(paste(strwrap(AttachNote), collapse = "\n"))
 }
+
+# .onLoad <- function(libname, pkgname) {
+#   registerS3method("+", "ggghost", "+.ggghost")
+#   registerS3method("-", "ggghost", "+.ggghost")
+# }
