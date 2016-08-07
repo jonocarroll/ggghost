@@ -11,6 +11,7 @@ Depends:
 License: GPL(>=3)
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/jonocarroll/ggghost
 BugReports: https://github.com/jonocarroll/ggghost/issues
 RoxygenNote: 5.0.1
 Suggests: testthat

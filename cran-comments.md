@@ -1,9 +1,15 @@
-## Maintainer address:
+## Resubmission
+
+* _a badge was missing a URL in README.md, and has been removed_
+
+* _local testing upgraded to 3.3.1 as I am submitting from a different machine_
+
+## Maintainer address
 
 _This package was previously submitted from alternative e-mail address on the same domain, and I now realise that it was a poor choice. As the package was not accepted, hopefully there is no issue in changing this_
 
 ## Test environments
-* local linux (Ubuntu 14.04) install, R 3.3.0
+* local linux (Ubuntu 14.04) install, R 3.3.1
 * travis-ci linux (default)
 * travis-ci Mac (default) 
 * win-builder (default)
