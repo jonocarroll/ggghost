@@ -9,3 +9,4 @@
 ^cran-comments\.html$
 ^\.gitignore$
 ^NEWS\.md$
+^README_supp/$
