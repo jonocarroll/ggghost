@@ -10,7 +10,7 @@
 
 ![](https://github.com/jonocarroll/ggghost/raw/master/inst/img/scooby.gif)
 
-Capture the spirit of your `ggplot` calls.
+Capture the spirit of your `ggplot2` calls.
 
 Motivation
 ----------
