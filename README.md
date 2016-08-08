@@ -8,7 +8,7 @@
 :ghost: *Oh, no! I think I saw a ... g-g-ghost*
 ===============================================
 
-![](https://github.com/jonocarroll/ggghost/raw/master/inst/img/scooby.gif)
+![](https://github.com/jonocarroll/ggghost/raw/master/README_supp/scooby.gif)
 
 Capture the spirit of your `ggplot2` calls.
 
