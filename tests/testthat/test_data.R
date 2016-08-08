@@ -11,3 +11,9 @@ recover_data(ggghostx)
 test_that("data can be successfully recovered", {
     expect_identical(df_saved, dat)
 })
+
+dat <- data.frame(x = 1:100, y = rnorm(100))
+
+test_that("overwriting changed data produces a warning",{
+    expect_warning(recover_data(ggghostx))
+})

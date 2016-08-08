@@ -313,7 +313,20 @@ lazarus <- reanimate
 #' @return A \code{data.frame} of the original data, named as it was when used in \code{ggplot(data)}
 #' @export
 recover_data <- function(x) {
+ 
+    ## create a local copy of the data
+    y <- yname <- attr(x, "data")$data_name
+    assign(y, attr(x, "data")$data, envir = environment())
+    
+    ## if the data exists in the calling frame, but has changed since
+    ## being saved to the ggghost object, produce a warning (but do it anyway)
     parent <- parent.frame()
-    assign(attr(x, "data")$data_name, attr(x, "data")$data, envir = parent)
+    if (exists(y, where = parent)) {
+        if (!identical(get(y, envir = environment()), get(y, envir = parent))) {
+            warning(paste0("Overwriting object ", yname, " in working space, but object has changed"))
+        } 
+    }
+    
+    assign(yname, attr(x, "data")$data, envir = parent)
     return(invisible(NULL))
 }
