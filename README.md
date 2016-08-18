@@ -1,8 +1,8 @@
-[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggghost)](https://cran.r-project.org/package=ggghost) [![packageversion](https://img.shields.io/badge/Package%20version-0.1.9000-orange.svg?style=flat-square)](commits/master) [![Last-changedate](https://img.shields.io/badge/last%20change-2016--08--08-yellowgreen.svg)](/commits/master)
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggghost)](https://cran.r-project.org/package=ggghost) [![packageversion](https://img.shields.io/badge/Package%20version-0.1.9000-orange.svg?style=flat-square)](commits/master) [![Last-changedate](https://img.shields.io/badge/last%20change-2016--08--18-yellowgreen.svg)](/commits/master)
 
 [![Linux/Mac Travis Build Status](https://img.shields.io/travis/jonocarroll/ggghost/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/jonocarroll/ggghost) [![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jonocarroll/ggghost/master.svg?label=Windows)](https://ci.appveyor.com/project/jonocarroll/ggghost) [![codecov](https://codecov.io/gh/jonocarroll/ggghost/branch/master/graph/badge.svg)](https://codecov.io/gh/jonocarroll/ggghost)
 
-[![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/ggghost)](http://www.r-pkg.org/pkg/ggghost) [![GitHub forks](https://img.shields.io/github/forks/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/network) [![GitHub stars](https://img.shields.io/github/stars/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/stargazers) [![Twitter](https://img.shields.io/twitter/url/https/github.com/jonocarroll/ggghost.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
+[![Downloads](http://cranlogs.r-pkg.org/badges/ggghost)](http://www.r-pkg.org/pkg/ggghost) [![GitHub forks](https://img.shields.io/github/forks/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/network) [![GitHub stars](https://img.shields.io/github/stars/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/stargazers) [![Twitter](https://img.shields.io/twitter/url/https/github.com/jonocarroll/ggghost.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 :ghost: *Oh, no! I think I saw a ... g-g-ghost*
@@ -45,13 +45,13 @@ use `%g<%` to initiate storage of the `ggplot2` calls then add to the call with 
 ``` r
 tmpdata <- data.frame(x = 1:100, y = rnorm(100))
 head(tmpdata)
-#>   x           y
-#> 1 1 -0.34471291
-#> 2 2  0.64126017
-#> 3 3  0.76714069
-#> 4 4  0.32004295
-#> 5 5 -0.07623337
-#> 6 6 -0.54644198
+#>   x          y
+#> 1 1  0.8930142
+#> 2 2 -2.2215165
+#> 3 3 -0.5178338
+#> 4 4  0.4729639
+#> 5 5 -0.1718715
+#> 6 6  0.1927056
 ```
 
 ``` r
@@ -131,7 +131,7 @@ str(print(z))
 #> List of 9
 #>  $ data       :'data.frame': 100 obs. of  2 variables:
 #>   ..$ x: int [1:100] 1 2 3 4 5 6 7 8 9 10 ...
-#>   ..$ y: num [1:100] -0.3447 0.6413 0.7671 0.32 -0.0762 ...
+#>   ..$ y: num [1:100] 0.893 -2.222 -0.518 0.473 -0.172 ...
 #>  $ layers     :List of 2
 #> [... truncated ...]
 ```
@@ -162,15 +162,27 @@ lazarus(z, "mycoolplot.gif")
 
 ![](README_supp/mycoolplot.gif)
 
+A supplementary data object (e.g. for use in a `geom_*` or `scale_*` call) can be added to the `ggghost` object
+
+``` r
+myColors <- c("alpha" = "red", "beta" = "blue", "gamma" = "green")
+supp_data(z) <- myColors
+```
+
+These will be recovered along with the primary data.
+
 For full reproducibility, the entire structure can be saved to an object for re-loading at a later point. This may not have made much sense for a `ggplot2` object, but now both the original data and the calls to generate the plot are saved. Should the environment that generated the plot be destroyed, all is not lost.
 
 ``` r
 saveRDS(z, file = "README_supp/mycoolplot.rds")
 rm(z)
 rm(tmpdata)
+rm(myColors)
 exists("z")
 #> [1] FALSE
 exists("tmpdata")
+#> [1] FALSE
+exists("myColors")
 #> [1] FALSE
 ```
 
@@ -191,22 +203,30 @@ str(z)
 #>   ..$ data_name: chr "tmpdata"
 #>   ..$ data     :'data.frame':    100 obs. of  2 variables:
 #>   .. ..$ x: int [1:100] 1 2 3 4 5 6 7 8 9 10 ...
-#>   .. ..$ y: num [1:100] -0.3447 0.6413 0.7671 0.32 -0.0762 ...
+#>   .. ..$ y: num [1:100] 0.893 -2.222 -0.518 0.473 -0.172 ...
+#>  - attr(*, "suppdata")=List of 2
+#>   ..$ supp_data_name: chr "myColors"
+#>   ..$ supp_data     : Named chr [1:3] "red" "blue" "green"
+#>   .. ..- attr(*, "names")= chr [1:3] "alpha" "beta" "gamma"
 
-recover_data(z)
+recover_data(z, supp = TRUE)
 head(tmpdata)
-#>   x           y
-#> 1 1 -0.34471291
-#> 2 2  0.64126017
-#> 3 3  0.76714069
-#> 4 4  0.32004295
-#> 5 5 -0.07623337
-#> 6 6 -0.54644198
+#>   x          y
+#> 1 1  0.8930142
+#> 2 2 -2.2215165
+#> 3 3 -0.5178338
+#> 4 4  0.4729639
+#> 5 5 -0.1718715
+#> 6 6  0.1927056
+
+myColors
+#>   alpha    beta   gamma 
+#>   "red"  "blue" "green"
 
 z
 ```
 
-![](README_supp/README-unnamed-chunk-16-1.png)
+![](README_supp/README-unnamed-chunk-17-1.png)
 
 We now have a proper reproducible graphic.
 
@@ -214,5 +234,5 @@ Caveats
 -------
 
 -   The data *must* be used as an argument in the `ggplot2` call, not piped in to it. Pipelines such as `z %g<% tmpdata %>% ggplot()` won't work... yet.
--   Only one original data set will be stored; the one in the original `ggplot(data = x)` call. If you require supplementary data for some `geom` then you need manage storage/consistency of that.
+-   ~~Only one original data set will be stored; the one in the original `ggplot(data = x)` call. If you require supplementary data for some `geom` then you need manage storage/consistency of that.~~ (fixed)
 -   For removing `labs` calls, an argument *must* be present. It doesn't need to be the actual one (all will be removed) but it must evaluate in scope. `TRUE` will do fine.

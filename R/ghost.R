@@ -349,16 +349,15 @@ recover_data <- function(x, supp = TRUE) {
         optout_supp_data <- ""
         supp_list <- supp_data(x)
         if (length(supp_list) > 0) {
-            if (!identical(supp_list[[2]], get(supp_list[[1]], envir = parent))) {
-                warning(paste0("Potentially overwriting object ", supp_list[[1]], " in working space, but object has changed"), call. = FALSE, immediate. = TRUE)
-                if (interactive()) {
-                    optout_supp_data <- readline("Press 'n' to opt out of overwriting ")
+            if (exists(supp_list[[1]], where = parent)) {
+                if (!identical(supp_list[[2]], get(supp_list[[1]], envir = parent))) {
+                    warning(paste0("Potentially overwriting object ", supp_list[[1]], " in working space, but object has changed"), call. = FALSE, immediate. = TRUE)
+                    if (interactive()) {
+                        optout_supp_data <- readline("Press 'n' to opt out of overwriting ")
+                    }   
                 }
-                
             }
-            
-            if (optout_supp_data != "n") assign(supp_list[[1]], supp_list[[2]], envir = parent)
-            
+        if (optout_supp_data != "n") assign(supp_list[[1]], supp_list[[2]], envir = parent)
         }
     }
     

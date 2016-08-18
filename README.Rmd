@@ -14,7 +14,7 @@ html_preview: false
 [![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jonocarroll/ggghost/master.svg?label=Windows)](https://ci.appveyor.com/project/jonocarroll/ggghost)
 [![codecov](https://codecov.io/gh/jonocarroll/ggghost/branch/master/graph/badge.svg)](https://codecov.io/gh/jonocarroll/ggghost)
 
-[![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/ggghost)](http://www.r-pkg.org/pkg/ggghost)
+[![Downloads](http://cranlogs.r-pkg.org/badges/ggghost)](http://www.r-pkg.org/pkg/ggghost)
 [![GitHub forks](https://img.shields.io/github/forks/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/network)
 [![GitHub stars](https://img.shields.io/github/stars/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/stargazers)
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/jonocarroll/ggghost.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
@@ -132,13 +132,23 @@ Since the object is a list, we can stepwise show the process of building up the 
 lazarus(z, "mycoolplot.gif")
 ```
 
+A supplementary data object (e.g. for use in a `geom_*` or `scale_*` call) can be added to the `ggghost` object
+```{r}
+myColors <- c("alpha" = "red", "beta" = "blue", "gamma" = "green")
+supp_data(z) <- myColors
+```
+
+These will be recovered along with the primary data.
+
 For full reproducibility, the entire structure can be saved to an object for re-loading at a later point. This may not have made much sense for a `ggplot2` object, but now both the original data and the calls to generate the plot are saved. Should the environment that generated the plot be destroyed, all is not lost.
 ```{r}
 saveRDS(z, file = "README_supp/mycoolplot.rds")
 rm(z)
 rm(tmpdata)
+rm(myColors)
 exists("z")
 exists("tmpdata")
+exists("myColors")
 ```
 
 Reading the `ggghost` object back to the session, both the relevant data and plot-generating calls can be re-executed. 
@@ -146,8 +156,10 @@ Reading the `ggghost` object back to the session, both the relevant data and plo
 z <- readRDS("README_supp/mycoolplot.rds")
 str(z)
 
-recover_data(z)
+recover_data(z, supp = TRUE)
 head(tmpdata)
+
+myColors
 
 z
 ```
@@ -157,5 +169,5 @@ We now have a proper reproducible graphic.
 ## Caveats
 
 * The data _must_ be used as an argument in the `ggplot2` call, not piped in to it. Pipelines such as `z %g<% tmpdata %>% ggplot()` won't work... yet.
-* Only one original data set will be stored; the one in the original `ggplot(data = x)` call. If you require supplementary data for some `geom` then you need manage storage/consistency of that.
+* ~~Only one original data set will be stored; the one in the original `ggplot(data = x)` call. If you require supplementary data for some `geom` then you need manage storage/consistency of that.~~ (fixed)
 * For removing `labs` calls, an argument _must_ be present. It doesn't need to be the actual one (all will be removed) but it must evaluate in scope. `TRUE` will do fine.

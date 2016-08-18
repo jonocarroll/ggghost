@@ -23,6 +23,9 @@ test_that("supplementary data is rejected from a non-ggghost object",{
     expect_error(supp_data(sdat) <- c(1, 2))
 })
 
+test_that("non-existant supplementary data cannot be extracted from a ggghost object",{
+    expect_warning(recover_data(ggghostx, supp = TRUE))
+})
 
 test_that("supplementary data can be added to a ggghost object",{
     expect_silent(supp_data(ggghostx) <- sdat)
