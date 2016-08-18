@@ -1,28 +1,25 @@
-## Resubmission
+## Summary
 
-* _a badge was missing a URL in README.md, and has been removed_
-
-* _local testing upgraded to 3.3.1 as I am submitting from a different machine_
-
-## Maintainer address
-
-_This package was previously submitted from alternative e-mail address on the same domain, and I now realise that it was a poor choice. As the package was not accepted, hopefully there is no issue in changing this_
+This is a minor update that provides some new features (supplementary data), 
+some improvements (warning on assignment), and some housekeeping (supplementary 
+README files moved out of build).
 
 ## Test environments
-* local linux (Ubuntu 14.04) install, R 3.3.1
+* local linux (Ubuntu 14.04) install, R 3.3.0
 * travis-ci linux (default)
 * travis-ci Mac (default) 
 * win-builder (default)
 * appveyor-ci (default)
 
-## Code Coverage: 100%
+## Code Coverage: 98.18%
+
+_Slightly decreased due to inclusion of `interactive()` conditionals_
 
 ## R CMD check results
 **There were no ERRORs, WARNINGs, or NOTEs on local check**
 
-**There was 1 additional NOTE from win-builder:**
+win-builder provided 1 NOTE:
 
-New submission
+**checking CRAN incoming feasibility**
 
-_As I have not previously submitted a package to CRAN._
-
+but I am not sure why; I am the existing maintainer for this package.

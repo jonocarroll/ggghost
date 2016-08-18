@@ -7,6 +7,6 @@
 ^cran$
 ^cran-comments\.md$
 ^cran-comments\.html$
+^cran-comments-1\.md$
 ^\.gitignore$
-^NEWS\.md$
 ^README_supp$
