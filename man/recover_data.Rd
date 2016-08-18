@@ -2,23 +2,33 @@
 % Please edit documentation in R/ghost.R
 \name{recover_data}
 \alias{recover_data}
-\title{Recover Data Stored in a ggghost Object}
+\title{Recover data Stored in a ggghost object}
 \usage{
-recover_data(x)
+recover_data(x, supp = TRUE)
 }
 \arguments{
 \item{x}{A ggghost object from which to extract the data.}
+
+\item{supp}{(logical) Should the supplementary data be extracted also?}
 }
 \value{
-A \code{data.frame} of the original data, named as it was when used in \code{ggplot(data)}
+A \code{data.frame} of the original data, named as it was when used 
+  in \code{ggplot(data)}
 }
 \description{
 The data used to generate a plot is an essential requirement for a 
-reproducible graphic. This is somewhat available from a ggplot \code{grob}
-(in raw form) but it it not easily accessible, and isn't named the same way
+reproducible graphic. This is somewhat available from a ggplot \code{grob} 
+(in raw form) but it it not easily accessible, and isn't named the same way 
 as the original call.
 }
 \details{
-This function retrieves the data from the ggghost object as it was when it was originally called.
+This function retrieves the data from the ggghost object as it was when it 
+was originally called.
+
+If supplementary data has also been attached using \code{\link{supp_data}} 
+then this will also be recovered (if requested).
+
+When used iteractively, a warning will be produced if the data to be
+extracted exists in the workspace but not identical to the captured version.
 }
 

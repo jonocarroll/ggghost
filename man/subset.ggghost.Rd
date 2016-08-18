@@ -2,7 +2,7 @@
 % Please edit documentation in R/ghost.R
 \name{subset.ggghost}
 \alias{subset.ggghost}
-\title{Extract a Subset of a ggghost Object}
+\title{Extract a subset of a ggghost object}
 \usage{
 \method{subset}{ggghost}(x, ...)
 }
