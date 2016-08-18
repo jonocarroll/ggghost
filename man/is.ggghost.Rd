@@ -2,7 +2,7 @@
 % Please edit documentation in R/ghost.R
 \name{is.ggghost}
 \alias{is.ggghost}
-\title{Reports Whether x is a ggghost Object}
+\title{Reports whether x is a ggghost object}
 \usage{
 is.ggghost(x)
 }
@@ -13,6 +13,6 @@ is.ggghost(x)
 logical; \code{TRUE} if \code{x} inherits class \code{ggghost}
 }
 \description{
-Reports Whether x is a ggghost Object
+Reports whether x is a ggghost object
 }
 

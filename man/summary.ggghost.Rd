@@ -2,7 +2,7 @@
 % Please edit documentation in R/ghost.R
 \name{summary.ggghost}
 \alias{summary.ggghost}
-\title{List the Calls Contained in a ggghost Object}
+\title{List the calls contained in a ggghost object}
 \usage{
 \method{summary}{ggghost}(object, ...)
 }

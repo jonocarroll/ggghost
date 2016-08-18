@@ -2,7 +2,7 @@
 % Please edit documentation in R/ghost.R
 \name{print.ggghost}
 \alias{print.ggghost}
-\title{Collect ggghost Calls and Produce the ggplot Output}
+\title{Collect ggghost calls and produce the ggplot output}
 \usage{
 \method{print}{ggghost}(x, ...)
 }
@@ -15,6 +15,6 @@
 The ggplot plot data (invisibly). Used for the side-effect of producing a ggplot plot.
 }
 \description{
-Collect ggghost Calls and Produce the ggplot Output
+Collect ggghost calls and produce the ggplot output
 }
 

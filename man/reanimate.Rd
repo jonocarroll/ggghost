@@ -3,7 +3,7 @@
 \name{reanimate}
 \alias{lazarus}
 \alias{reanimate}
-\title{Bring a ggplot to Life (re-animate)}
+\title{Bring a ggplot to life (re-animate)}
 \usage{
 reanimate(object, gifname = "ggghost.gif", interval = 1, ani.width = 600,
   ani.height = 600)

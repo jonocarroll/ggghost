@@ -2,7 +2,7 @@
 % Please edit documentation in R/ghost.R
 \name{identify_data}
 \alias{identify_data}
-\title{Identify the Data Passed to ggplot}
+\title{Identify the data passed to ggplot}
 \usage{
 identify_data(data, mapping = ggplot2::aes(), ...,
   environment = parent.frame())

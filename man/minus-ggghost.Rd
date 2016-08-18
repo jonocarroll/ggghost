@@ -2,7 +2,7 @@
 % Please edit documentation in R/ghost.R
 \name{-.gg}
 \alias{-.gg}
-\title{Remove a Call from a ggghost Object}
+\title{Remove a call from a ggghost object}
 \usage{
 \method{-}{gg}(e1, e2)
 }
