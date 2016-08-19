@@ -55,3 +55,9 @@ recover_data(ggghostx, supp = TRUE)
 test_that("supplementary data be successfully recovered",{
     expect_identical(sdat_saved, sdat)
 })
+
+ggghostx <- ggghostx + geom_line()
+
+test_that("supplementary data remains after adding a call", {
+    expect_identical(supp_data(ggghostx)[[2]], sdat)
+})

@@ -92,6 +92,9 @@ is.ggghost <- function(x) inherits(x, "ggghost")
     if (is.ggghost(e1)) {
         new_obj <- structure(append(e1, match.call()[[3]]), class = c("ggghost", "gg"))
         attr(new_obj, "data") <- attr(e1, "data")
+        if (!is.null(attr(e1, "suppdata"))) {
+            attr(new_obj, "suppdata") <- attr(e1, "suppdata")
+        }
         return(new_obj) 
     } else {
         return(e1 %+% e2)
@@ -156,6 +159,9 @@ is.ggghost <- function(x) inherits(x, "ggghost")
         }
         new_obj <- structure(unclass(e1)[-grep(sub("\\(.*$", "", call_to_remove)[1], unclass(e1))], class = c("ggghost", "gg"))
         attr(new_obj, "data") <- attr(e1, "data")
+        if (!is.null(attr(e1, "suppdata"))) {
+            attr(new_obj, "suppdata") <- attr(e1, "suppdata")
+        }
         return(new_obj)
     }
 }
@@ -169,7 +175,7 @@ is.ggghost <- function(x) inherits(x, "ggghost")
 #' @return The ggplot plot data (invisibly). Used for the side-effect of producing a ggplot plot.
 #' @export
 print.ggghost <- function(x, ...) {
-    recover_data(x)
+    recover_data(x, supp = TRUE)
     plotdata <- eval(parse(text = paste(x, collapse = " + ")))
     print(plotdata)
     return(invisible(plotdata))
@@ -248,6 +254,9 @@ summary.ggghost <- function(object, ...) {
 subset.ggghost <- function(x, ...) {
     new_obj <- structure(unclass(x)[...], class = c("ggghost", "gg"))
     attr(new_obj, "data") <- attr(x, "data")
+    if (!is.null(attr(x, "suppdata"))) {
+        attr(new_obj, "suppdata") <- attr(x, "suppdata")
+    }
     return(new_obj)
 }
 
@@ -283,7 +292,7 @@ reanimate <- function(object, gifname = "ggghost.gif", interval = 1, ani.width =
     stopifnot(length(object) > 1)
     animation::ani.options(interval = interval, ani.width = ani.width, ani.height = ani.height)
     animation::saveGIF({
-        recover_data(object)
+        recover_data(object, supp = TRUE)
         ggtmp <- object[[1]]
         print(eval(ggtmp))
         for (i in 2:length(object)) {
@@ -376,7 +385,7 @@ recover_data <- function(x, supp = TRUE) {
 supp_data <- function(x) {
     
     value <- attr(x, "suppdata")
-    if (length(value) == 0 & interactive()) warning("ggghostbuster: no supplementary data found", call. = FALSE)
+    # if (length(value) == 0 & interactive()) warning("ggghostbuster: no supplementary data found", call. = FALSE)
     
     return(value)
     

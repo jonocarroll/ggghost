@@ -1,3 +1,8 @@
+# CHANGES in ggghost 0.2.1
+==========
+
+* Corrected a minor bug which dropped supplementary data when using `+` or `-`.
+
 # CHANGES in ggghost 0.2.0
 ==========
 
