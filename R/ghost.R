@@ -64,7 +64,8 @@ identify_data <- function(data, mapping = ggplot2::aes(), ..., environment = par
 #' @export
 is.ggghost <- function(x) inherits(x, "ggghost")
 
-
+# @TODO check compatibility with dev ggplot2
+# @BODY urgent, since ggplot2 uodate will be released soon.
 #' Add a New ggplot Component to a ggghost Object
 #'
 #' This operator allows you to add objects to a ggghost object in the style of @hrbrmstr.
