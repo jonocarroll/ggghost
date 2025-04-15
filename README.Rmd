@@ -5,14 +5,8 @@ editor_options:
 ---
 
 <!-- badges: start -->
-[![packageversion](https://img.shields.io/badge/Package%20version-0.2.1-orange.svg?style=flat-square)](commits/master)
-[![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
 [![R-CMD-check](https://github.com/jonocarroll/ggghost/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jonocarroll/ggghost/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
-
-[![Downloads](http://cranlogs.r-pkg.org/badges/ggghost)](http://www.r-pkg.org/pkg/ggghost)
-[![GitHub forks](https://img.shields.io/github/forks/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/network)
-[![GitHub stars](https://img.shields.io/github/stars/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/stargazers)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
