@@ -11,3 +11,4 @@
 ^\.gitignore$
 ^README_supp$
 ^\.github$
+^CRAN-SUBMISSION$
