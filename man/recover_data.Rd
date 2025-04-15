@@ -28,6 +28,6 @@ was originally called.
 If supplementary data has also been attached using \code{\link{supp_data}}
 then this will also be recovered (if requested).
 
-When used iteractively, a warning will be produced if the data to be
+When used interactively, a warning will be produced if the data to be
 extracted exists in the workspace but not identical to the captured version.
 }

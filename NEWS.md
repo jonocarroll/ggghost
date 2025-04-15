@@ -1,6 +1,12 @@
 # CHANGES in ggghost 0.2.1
 ==========
 
+* Minor cleanup, inline ggplot2 params
+
+
+# CHANGES in ggghost 0.2.1
+==========
+
 * Corrected a minor bug which dropped supplementary data when using `+` or `-`.
 
 # CHANGES in ggghost 0.2.0
