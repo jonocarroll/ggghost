@@ -17,7 +17,7 @@ logical expressions.}
 Another ggghost object containing only the calls selected.
 }
 \description{
-Alternative to subtracting calls using `-.gg`, this method allows one to 
+Alternative to subtracting calls using `-.gg`, this method allows one to
 select the desired components of the available calls and have those
 evaluated.
 }
@@ -37,4 +37,3 @@ subset(z, c(1,2,6))
 ## or
 subset(z, c(TRUE,TRUE,FALSE,FALSE,FALSE,TRUE))
 }
-

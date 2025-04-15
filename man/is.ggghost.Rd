@@ -15,4 +15,3 @@ logical; \code{TRUE} if \code{x} inherits class \code{ggghost}
 \description{
 Reports whether x is a ggghost object
 }
-

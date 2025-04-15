@@ -1,23 +1,20 @@
 ---
-output:
-  md_document:
-    variant: markdown_github
-html_preview: false
+output: github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+<!-- badges: start -->
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggghost)](https://cran.r-project.org/package=ggghost)
 [![packageversion](https://img.shields.io/badge/Package%20version-0.2.1-orange.svg?style=flat-square)](commits/master)
 [![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
-
-[![Linux/Mac Travis Build Status](https://img.shields.io/travis/jonocarroll/ggghost/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/jonocarroll/ggghost)
-[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jonocarroll/ggghost/master.svg?label=Windows)](https://ci.appveyor.com/project/jonocarroll/ggghost)
-[![codecov](https://codecov.io/gh/jonocarroll/ggghost/branch/master/graph/badge.svg)](https://codecov.io/gh/jonocarroll/ggghost)
+[![R-CMD-check](https://github.com/jonocarroll/ggghost/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jonocarroll/ggghost/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 [![Downloads](http://cranlogs.r-pkg.org/badges/ggghost)](http://www.r-pkg.org/pkg/ggghost)
 [![GitHub forks](https://img.shields.io/github/forks/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/network)
 [![GitHub stars](https://img.shields.io/github/stars/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/stargazers)
-[![Twitter](https://img.shields.io/twitter/url/https/github.com/jonocarroll/ggghost.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -128,8 +125,12 @@ ggplot(tmpdata) + geom_point(aes(x,y), col = "red")
 ```
 
 Since the object is a list, we can stepwise show the process of building up the plot as a (re-)animation
-```{r}
+```{r, eval = FALSE}
 lazarus(z, "mycoolplot.gif")
+```
+
+```{r, echo = FALSE}
+knitr::include_graphics("README_supp/mycoolplot.gif")
 ```
 
 A supplementary data object (e.g. for use in a `geom_*` or `scale_*` call) can be added to the `ggghost` object

@@ -9,16 +9,16 @@
 \arguments{
 \item{object}{A ggghost object to present}
 
-\item{...}{Mainly provided for \code{summary.default} generic consistency. 
-When \code{combine} is passed as an argument (arbitrary value) the list of 
-calls is concatenated into a single string as one might write the ggplot 
+\item{...}{Mainly provided for \code{summary.default} generic consistency.
+When \code{combine} is passed as an argument (arbitrary value) the list of
+calls is concatenated into a single string as one might write the ggplot
 call.}
 }
 \value{
 Either a list of ggplot calls or a string of such concatenated with " + "
 }
 \description{
-Summarises a ggghost object by presenting the contained calls in the order 
+Summarises a ggghost object by presenting the contained calls in the order
 they were added. Optionally concatenates these into a single ggplot call.
 }
 \details{
@@ -39,4 +39,3 @@ summary(z, combine = TRUE) # Note, value of 'combine' is arbitrary
 ## to inspect the data structure also captured, use str()
 str(z)
 }
-

@@ -19,4 +19,3 @@ The original object with \code{suppdata} attribute
 \description{
 Attach supplementary data to a ggghost object
 }
-

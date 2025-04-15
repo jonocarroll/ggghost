@@ -15,13 +15,13 @@ lhs \%g<\% rhs
 Assigns the \code{ggghost} structure to the \code{lhs} symbol.
 }
 \description{
-The data and initial \code{ggpot()} call are stored as a list (call) with 
+The data and initial \code{ggpot()} call are stored as a list (call) with
 attribute (data).
 }
 \details{
-The data must be passed into the \code{ggplot} call directly. 
+The data must be passed into the \code{ggplot} call directly.
   Passing this in via a magrittr pipe remains as a future improvement. The
-  newly created \code{ggghost} object is a list of length 1 containing the 
+  newly created \code{ggghost} object is a list of length 1 containing the
   \code{ggplot} call, with attribute \code{data}; another list, containing
   the \code{data_name} and \code{data} itself.
 }
@@ -31,4 +31,3 @@ tmpdata <- data.frame(x = 1:100, y = rnorm(100))
 
 z \%g<\% ggplot(tmpdata, aes(x,y))
 }
-

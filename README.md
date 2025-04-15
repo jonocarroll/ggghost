@@ -1,28 +1,48 @@
-[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ggghost)](https://cran.r-project.org/package=ggghost) [![packageversion](https://img.shields.io/badge/Package%20version-0.2.1-orange.svg?style=flat-square)](commits/master) [![Last-changedate](https://img.shields.io/badge/last%20change-2016--08--18-yellowgreen.svg)](/commits/master)
 
-[![Linux/Mac Travis Build Status](https://img.shields.io/travis/jonocarroll/ggghost/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/jonocarroll/ggghost) [![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jonocarroll/ggghost/master.svg?label=Windows)](https://ci.appveyor.com/project/jonocarroll/ggghost) [![codecov](https://codecov.io/gh/jonocarroll/ggghost/branch/master/graph/badge.svg)](https://codecov.io/gh/jonocarroll/ggghost)
+[![Project Status: Active - The project has reached a stable, usable
+state and is being actively
+developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+<!-- badges: start -->
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggghost)](https://cran.r-project.org/package=ggghost)
+[![packageversion](https://img.shields.io/badge/Package%20version-0.2.1-orange.svg?style=flat-square)](commits/master)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2025--04--15-yellowgreen.svg)](/commits/master)
+[![R-CMD-check](https://github.com/jonocarroll/ggghost/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jonocarroll/ggghost/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
-[![Downloads](http://cranlogs.r-pkg.org/badges/ggghost)](http://www.r-pkg.org/pkg/ggghost) [![GitHub forks](https://img.shields.io/github/forks/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/network) [![GitHub stars](https://img.shields.io/github/stars/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/stargazers) [![Twitter](https://img.shields.io/twitter/url/https/github.com/jonocarroll/ggghost.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
+[![Downloads](http://cranlogs.r-pkg.org/badges/ggghost)](http://www.r-pkg.org/pkg/ggghost)
+[![GitHub
+forks](https://img.shields.io/github/forks/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/network)
+[![GitHub
+stars](https://img.shields.io/github/stars/jonocarroll/ggghost.svg)](https://github.com/jonocarroll/ggghost/stargazers)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-:ghost: *Oh, no! I think I saw a ... g-g-ghost*
-===============================================
+
+# :ghost: *Oh, no! I think I saw a … g-g-ghost*
 
 ![](https://github.com/jonocarroll/ggghost/raw/master/README_supp/scooby.gif)
 
 Capture the spirit of your `ggplot2` calls.
 
-Motivation
-----------
+## Motivation
 
-`ggplot2::ggplot()` stores the information needed to build the graph as a `grob`, but that's what the **computer** needs to know about in order to build the graph. As humans, we're more interested in what commands were issued in order to build the graph. For good reproducibility, the calls need to be applied to the relevant data. While this is somewhat available by deconstructing the `grob`, it's not the simplest approach.
+`ggplot2::ggplot()` stores the information needed to build the graph as
+a `grob`, but that’s what the **computer** needs to know about in order
+to build the graph. As humans, we’re more interested in what commands
+were issued in order to build the graph. For good reproducibility, the
+calls need to be applied to the relevant data. While this is somewhat
+available by deconstructing the `grob`, it’s not the simplest approach.
 
 Here is one option that solves that problem.
 
-`ggghost` stores the data used in a `ggplot()` call, and collects `ggplot2` commands (usually separated by `+`) as they are applied, in effect lazily collecting the calls. Once the object is requested, the `print` method combines the individual calls back into the total plotting command and executes it. This is where the call would usually be discarded. Instead, a "ghost" of the commands lingers in the object for further investigation, subsetting, adding to, or subtracting from.
+`ggghost` stores the data used in a `ggplot()` call, and collects
+`ggplot2` commands (usually separated by `+`) as they are applied, in
+effect lazily collecting the calls. Once the object is requested, the
+`print` method combines the individual calls back into the total
+plotting command and executes it. This is where the call would usually
+be discarded. Instead, a “ghost” of the commands lingers in the object
+for further investigation, subsetting, adding to, or subtracting from.
 
-Installation
-------------
+## Installation
 
 You can install `ggghost` from CRAN with:
 
@@ -37,21 +57,21 @@ or the development version from github with:
 devtools::install_github("jonocarroll/ggghost")
 ```
 
-Usage
------
+## Usage
 
-use `%g<%` to initiate storage of the `ggplot2` calls then add to the call with each logical call on a new line (@hrbrmstr style)
+use `%g<%` to initiate storage of the `ggplot2` calls then add to the
+call with each logical call on a new line (@hrbrmstr style)
 
 ``` r
 tmpdata <- data.frame(x = 1:100, y = rnorm(100))
 head(tmpdata)
 #>   x          y
-#> 1 1  0.8930142
-#> 2 2 -2.2215165
-#> 3 3 -0.5178338
-#> 4 4  0.4729639
-#> 5 5 -0.1718715
-#> 6 6  0.1927056
+#> 1 1  1.8318017
+#> 2 2 -0.8719125
+#> 3 3  0.4451759
+#> 4 4 -0.6943876
+#> 5 5 -0.2814022
+#> 6 6 -0.6976087
 ```
 
 ``` r
@@ -65,7 +85,8 @@ z <- z + labs(x = "x axis", y = "y axis")
 z <- z + geom_smooth()
 ```
 
-This invisibly stores the `ggplot2` calls in a list which can be reviewed either with the list of calls
+This invisibly stores the `ggplot2` calls in a list which can be
+reviewed either with the list of calls
 
 ``` r
 summary(z)
@@ -101,9 +122,11 @@ The plot can be generated using a `print` method
 z
 ```
 
-![](README_supp/README-unnamed-chunk-8-1.png)
+![](README_supp/README-unnamed-chunk-8-1.png)<!-- -->
 
-which re-evaluates the list of calls and applies them to the saved data, meaning that the plot remains reproducible even if the data source is changed/destroyed.
+which re-evaluates the list of calls and applies them to the saved data,
+meaning that the plot remains reproducible even if the data source is
+changed/destroyed.
 
 The call list can be subset, removing parts of the call
 
@@ -111,32 +134,37 @@ The call list can be subset, removing parts of the call
 subset(z, c(1,2,6))
 ```
 
-![](README_supp/README-unnamed-chunk-9-1.png)
+![](README_supp/README-unnamed-chunk-9-1.png)<!-- -->
 
-Plot features can be removed by name, a task that would otherwise have involved re-generating the entire plot
+Plot features can be removed by name, a task that would otherwise have
+involved re-generating the entire plot
 
 ``` r
 z2 <- z + geom_line(col = "coral")
 z2 - geom_point()
 ```
 
-![](README_supp/README-unnamed-chunk-10-1.png)
+![](README_supp/README-unnamed-chunk-10-1.png)<!-- -->
 
-Calls are removed based on matching to the regex `\\(.*$` (from the first bracket to the end of the call), so arguments are irrelevant.
+Calls are removed based on matching to the regex `\\(.*$` (from the
+first bracket to the end of the call), so arguments are irrelevant.
 
-The object still generates all the `grob` info, it's just stored as calls rather than a completed image.
+The object still generates all the `grob` info, it’s just stored as
+calls rather than a completed image.
 
 ``` r
 str(print(z))
-#> List of 9
+#> List of 11
 #>  $ data       :'data.frame': 100 obs. of  2 variables:
 #>   ..$ x: int [1:100] 1 2 3 4 5 6 7 8 9 10 ...
-#>   ..$ y: num [1:100] 0.893 -2.222 -0.518 0.473 -0.172 ...
+#>   ..$ y: num [1:100] 1.832 -0.872 0.445 -0.694 -0.281 ...
 #>  $ layers     :List of 2
 #> [... truncated ...]
+#>  - attr(*, "class")= chr [1:2] "gg" "ggplot"
 ```
 
-Since the `grob` info is still produced, normal `ggplot2` operators can be applied *after* the `print` statement, such as replacing the data
+Since the `grob` info is still produced, normal `ggplot2` operators can
+be applied *after* the `print` statement, such as replacing the data
 
 ``` r
 xvals <- seq(0,2*pi,0.1)
@@ -144,25 +172,28 @@ tmpdata_new <- data.frame(x = xvals, y = sin(xvals))
 print(z - geom_smooth()) %+% tmpdata_new
 ```
 
-![](README_supp/README-unnamed-chunk-12-2.png)
+![](README_supp/README-unnamed-chunk-12-1.png)<!-- -->![](README_supp/README-unnamed-chunk-12-2.png)<!-- -->
 
-`ggplot2` calls still work as normal if you want to avoid storing the calls.
+`ggplot2` calls still work as normal if you want to avoid storing the
+calls.
 
 ``` r
 ggplot(tmpdata) + geom_point(aes(x,y), col = "red")
 ```
 
-![](README_supp/README-unnamed-chunk-13-1.png)
+![](README_supp/README-unnamed-chunk-13-1.png)<!-- -->
 
-Since the object is a list, we can stepwise show the process of building up the plot as a (re-)animation
+Since the object is a list, we can stepwise show the process of building
+up the plot as a (re-)animation
 
 ``` r
 lazarus(z, "mycoolplot.gif")
 ```
 
-![](README_supp/mycoolplot.gif)
+![](README_supp/mycoolplot.gif)<!-- -->
 
-A supplementary data object (e.g. for use in a `geom_*` or `scale_*` call) can be added to the `ggghost` object
+A supplementary data object (e.g. for use in a `geom_*` or `scale_*`
+call) can be added to the `ggghost` object
 
 ``` r
 myColors <- c("alpha" = "red", "beta" = "blue", "gamma" = "green")
@@ -171,7 +202,11 @@ supp_data(z) <- myColors
 
 These will be recovered along with the primary data.
 
-For full reproducibility, the entire structure can be saved to an object for re-loading at a later point. This may not have made much sense for a `ggplot2` object, but now both the original data and the calls to generate the plot are saved. Should the environment that generated the plot be destroyed, all is not lost.
+For full reproducibility, the entire structure can be saved to an object
+for re-loading at a later point. This may not have made much sense for a
+`ggplot2` object, but now both the original data and the calls to
+generate the plot are saved. Should the environment that generated the
+plot be destroyed, all is not lost.
 
 ``` r
 saveRDS(z, file = "README_supp/mycoolplot.rds")
@@ -186,7 +221,8 @@ exists("myColors")
 #> [1] FALSE
 ```
 
-Reading the `ggghost` object back to the session, both the relevant data and plot-generating calls can be re-executed.
+Reading the `ggghost` object back to the session, both the relevant data
+and plot-generating calls can be re-executed.
 
 ``` r
 z <- readRDS("README_supp/mycoolplot.rds")
@@ -203,7 +239,7 @@ str(z)
 #>   ..$ data_name: chr "tmpdata"
 #>   ..$ data     :'data.frame':    100 obs. of  2 variables:
 #>   .. ..$ x: int [1:100] 1 2 3 4 5 6 7 8 9 10 ...
-#>   .. ..$ y: num [1:100] 0.893 -2.222 -0.518 0.473 -0.172 ...
+#>   .. ..$ y: num [1:100] 1.832 -0.872 0.445 -0.694 -0.281 ...
 #>  - attr(*, "suppdata")=List of 2
 #>   ..$ supp_data_name: chr "myColors"
 #>   ..$ supp_data     : Named chr [1:3] "red" "blue" "green"
@@ -212,12 +248,12 @@ str(z)
 recover_data(z, supp = TRUE)
 head(tmpdata)
 #>   x          y
-#> 1 1  0.8930142
-#> 2 2 -2.2215165
-#> 3 3 -0.5178338
-#> 4 4  0.4729639
-#> 5 5 -0.1718715
-#> 6 6  0.1927056
+#> 1 1  1.8318017
+#> 2 2 -0.8719125
+#> 3 3  0.4451759
+#> 4 4 -0.6943876
+#> 5 5 -0.2814022
+#> 6 6 -0.6976087
 
 myColors
 #>   alpha    beta   gamma 
@@ -226,13 +262,18 @@ myColors
 z
 ```
 
-![](README_supp/README-unnamed-chunk-17-1.png)
+![](README_supp/README-unnamed-chunk-18-1.png)<!-- -->
 
 We now have a proper reproducible graphic.
 
-Caveats
--------
+## Caveats
 
--   The data *must* be used as an argument in the `ggplot2` call, not piped in to it. Pipelines such as `z %g<% tmpdata %>% ggplot()` won't work... yet.
--   ~~Only one original data set will be stored; the one in the original `ggplot(data = x)` call. If you require supplementary data for some `geom` then you need manage storage/consistency of that.~~ (fixed)
--   For removing `labs` calls, an argument *must* be present. It doesn't need to be the actual one (all will be removed) but it must evaluate in scope. `TRUE` will do fine.
+- The data *must* be used as an argument in the `ggplot2` call, not
+  piped in to it. Pipelines such as `z %g<% tmpdata %>% ggplot()` won’t
+  work… yet.
+- ~~Only one original data set will be stored; the one in the original
+  `ggplot(data = x)` call. If you require supplementary data for some
+  `geom` then you need manage storage/consistency of that.~~ (fixed)
+- For removing `labs` calls, an argument *must* be present. It doesn’t
+  need to be the actual one (all will be removed) but it must evaluate
+  in scope. `TRUE` will do fine.

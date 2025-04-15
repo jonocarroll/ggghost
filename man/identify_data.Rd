@@ -4,22 +4,24 @@
 \alias{identify_data}
 \title{Identify the data passed to ggplot}
 \usage{
-identify_data(data, mapping = ggplot2::aes(), ...,
-  environment = parent.frame())
+identify_data(
+  data,
+  mapping = ggplot2::aes(),
+  ...,
+  environment = parent.frame()
+)
 }
 \arguments{
 \item{data}{Default dataset to use for plot. If not already a data.frame,
-will be converted to one by \code{\link{fortify}}. If not specified,
-must be suppled in each layer added to the plot.}
+will be converted to one by [ggplot2::fortify()]. If not specified,
+must be supplied in each layer added to the plot.}
 
 \item{mapping}{Default list of aesthetic mappings to use for plot.
-If not specified, must be suppled in each layer added to the plot.}
+If not specified, must be supplied in each layer added to the plot.}
 
 \item{...}{Other arguments passed on to methods. Not currently used.}
 
-\item{environment}{If an variable defined in the aesthetic mapping is not
-found in the data, ggplot will look for it in this environment. It defaults
-to using the environment in which \code{ggplot()} is called.}
+\item{environment}{(deprecated) Used prior to tidy evaluation.}
 }
 \value{
 Name of the \code{data.frame} passed to \code{ggplot}
@@ -29,4 +31,3 @@ Duplicate arguments to ggplot2::ggplot with the intent that the \code{data}
 argument can be captured and identified.
 }
 \keyword{internal}
-

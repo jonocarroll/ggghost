@@ -12,21 +12,21 @@
 \item{e2}{A component to remove from \code{e1}}
 }
 \value{
-A \code{ggghost} structure with calls matching \code{e2} removed, 
+A \code{ggghost} structure with calls matching \code{e2} removed,
   otherwise the same as \code{e1}
 }
 \description{
 Calls can be removed from the \code{ggghost} object via regex matching of the
-function name. All matching calls will be removed based on the match to the 
+function name. All matching calls will be removed based on the match to the
 string up to the first bracket, so any arguments are irrelevant.
 }
 \details{
-For example, subtracting \code{geom_line()} will remove all calls matching 
+For example, subtracting \code{geom_line()} will remove all calls matching
 \code{geom_line} regardless of their arguments.
 
 `labs()` has been identified as a special case, as it requires an argument in
 order to be recognised as a valid function. Thus, trying to remove it with an
-empty argument will fail. That said, the argument doesn't need to match, so 
+empty argument will fail. That said, the argument doesn't need to match, so
 it can be populated with a dummy string or anything that evaluates in scope.
 See examples.
 }
@@ -45,9 +45,8 @@ z <- z + geom_smooth()
 z - geom_smooth()
 
 ## remove the labels
-## NOTE: argument must be present and able to be 
+## NOTE: argument must be present and able to be
 ## evaluated in scope
 z - labs(TRUE) # works
 z - labs(title) # works because of title(), but removes all labs()
 }
-

@@ -16,4 +16,3 @@ A list with two elements: the name of the supplementary data, and the
 \description{
 Inspect the supplementary data attached to a ggghost object
 }
-

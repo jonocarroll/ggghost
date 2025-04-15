@@ -17,4 +17,3 @@ The ggplot plot data (invisibly). Used for the side-effect of producing a ggplot
 \description{
 Collect ggghost calls and produce the ggplot output
 }
-

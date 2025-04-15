@@ -28,4 +28,3 @@ z <- z + labs(title = "My cool ggplot")
 z <- z + labs(x = "x axis", y = "y axis")
 z <- z + geom_smooth()
 }
-
