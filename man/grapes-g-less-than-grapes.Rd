@@ -20,10 +20,10 @@ attribute (data).
 }
 \details{
 The data must be passed into the \code{ggplot} call directly.
-  Passing this in via a magrittr pipe remains as a future improvement. The
-  newly created \code{ggghost} object is a list of length 1 containing the
-  \code{ggplot} call, with attribute \code{data}; another list, containing
-  the \code{data_name} and \code{data} itself.
+Passing this in via a magrittr pipe remains as a future improvement. The
+newly created \code{ggghost} object is a list of length 1 containing the
+\code{ggplot} call, with attribute \code{data}; another list, containing
+the \code{data_name} and \code{data} itself.
 }
 \examples{
 ## create a ggghost object

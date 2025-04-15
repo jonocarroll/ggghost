@@ -17,7 +17,7 @@ logical expressions.}
 Another ggghost object containing only the calls selected.
 }
 \description{
-Alternative to subtracting calls using `-.gg`, this method allows one to
+Alternative to subtracting calls using \code{-.gg}, this method allows one to
 select the desired components of the available calls and have those
 evaluated.
 }

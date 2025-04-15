@@ -13,7 +13,7 @@
 }
 \value{
 A \code{ggghost} structure with calls matching \code{e2} removed,
-  otherwise the same as \code{e1}
+otherwise the same as \code{e1}
 }
 \description{
 Calls can be removed from the \code{ggghost} object via regex matching of the
@@ -24,7 +24,7 @@ string up to the first bracket, so any arguments are irrelevant.
 For example, subtracting \code{geom_line()} will remove all calls matching
 \code{geom_line} regardless of their arguments.
 
-`labs()` has been identified as a special case, as it requires an argument in
+\code{labs()} has been identified as a special case, as it requires an argument in
 order to be recognised as a valid function. Thus, trying to remove it with an
 empty argument will fail. That said, the argument doesn't need to match, so
 it can be populated with a dummy string or anything that evaluates in scope.

@@ -14,3 +14,4 @@ URL: https://github.com/jonocarroll/ggghost
 BugReports: https://github.com/jonocarroll/ggghost/issues
 RoxygenNote: 7.3.2
 Suggests: testthat
+Roxygen: list(markdown = TRUE)

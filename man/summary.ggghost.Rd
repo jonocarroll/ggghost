@@ -23,7 +23,7 @@ they were added. Optionally concatenates these into a single ggplot call.
 }
 \details{
 The data is also included in ggghost objects. If this is also
-  desired in the output, use \code{str}. See example.
+desired in the output, use \code{str}. See example.
 }
 \examples{
 ## present the ggghost object as a list

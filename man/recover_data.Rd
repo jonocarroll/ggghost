@@ -13,7 +13,7 @@ recover_data(x, supp = TRUE)
 }
 \value{
 A \code{data.frame} of the original data, named as it was when used
-  in \code{ggplot(data)}
+in \code{ggplot(data)}
 }
 \description{
 The data used to generate a plot is an essential requirement for a
