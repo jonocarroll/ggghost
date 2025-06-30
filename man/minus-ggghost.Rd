@@ -42,12 +42,6 @@ z <- z + labs(title = "My cool ggplot")
 z <- z + labs(x = "x axis", y = "y axis")
 z <- z + geom_smooth()
 
-## remove the geom_smooth
-z - geom_smooth()
-
-## remove the labels
-## NOTE: argument must be present and able to be
-## evaluated in scope
 z - "labs"        # removes all labs
 z - "title"       # removes just the title
 z - "axis"        # removes the axis labels

@@ -3,7 +3,7 @@ library(ggplot2)
 context("Methods")
 
 dat <- data.frame(x = 1:100, y = rnorm(100))
-ggghostx %g<% ggplot(dat, aes(x,y))
+ggghostx %g<% ggplot(dat, aes(x, y))
 ggghostx <- ggghostx + geom_point(col = "red")
 ggghostx <- ggghostx + geom_line(col = "steelblue")
 summary1 <- summary(ggghostx)
