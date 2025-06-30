@@ -166,4 +166,4 @@ We now have a proper reproducible graphic.
 
 * The data _must_ be used as an argument in the `ggplot2` call, not piped in to it. Pipelines such as `z %g<% tmpdata %>% ggplot()` won't work... yet.
 * ~~Only one original data set will be stored; the one in the original `ggplot(data = x)` call. If you require supplementary data for some `geom` then you need manage storage/consistency of that.~~ (fixed)
-* For removing `labs` calls, an argument _must_ be present. It doesn't need to be the actual one (all will be removed) but it must evaluate in scope. `TRUE` will do fine.
+* ~~For removing `labs` calls, an argument _must_ be present. It doesn't need to be the actual one (all will be removed) but it must evaluate in scope. `TRUE` will do fine.~~
