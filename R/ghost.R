@@ -21,20 +21,24 @@
 #'
 #' z %g<% ggplot(tmpdata, aes(x,y))
 `%g<%` <- function(lhs, rhs) {
-    match     <- match.call()
-    match_lhs <- match[[2]]
-    match_rhs <- match[[3]]
+  match <- match.call()
+  match_lhs <- match[[2]]
+  match_rhs <- match[[3]]
 
-    parent <- parent.frame()
+  parent <- parent.frame()
 
-    new_obj <- structure(list(as.call(match_rhs)), class = c("ggghost", "gg"))
-    data_name <- eval(parse(text = sub("ggplot[^(]*", "identify_data", deparse(summary(new_obj)[[1]]))))
-    attr(new_obj, "data") <- list(data_name = data_name,
-                                  data      = get(data_name, envir = parent))
+  new_obj <- structure(list(as.call(match_rhs)), class = c("ggghost", "gg"))
+  data_name <- eval(parse(
+    text = sub("ggplot[^(]*", "identify_data", deparse(summary(new_obj)[[1]]))
+  ))
+  attr(new_obj, "data") <- list(
+    data_name = data_name,
+    data = get(data_name, envir = parent)
+  )
 
-    assign(as.character(match_lhs), new_obj, envir = parent)
+  assign(as.character(match_lhs), new_obj, envir = parent)
 
-    return(invisible(NULL))
+  return(invisible(NULL))
 }
 
 
@@ -54,11 +58,16 @@
 #' @return Name of the \code{data.frame} passed to \code{ggplot}
 #'
 #' @keywords internal
-identify_data <- function(data, mapping = ggplot2::aes(), ..., environment = parent.frame()) {
-    match <- match.call()
-    data_name <- match[["data"]]
-    if (is.null(data_name)) stop("could not identify data from call.")
-    return(as.character(data_name))
+identify_data <- function(
+  data,
+  mapping = ggplot2::aes(),
+  ...,
+  environment = parent.frame()
+) {
+  match <- match.call()
+  data_name <- match[["data"]]
+  if (is.null(data_name)) stop("could not identify data from call.")
+  return(as.character(data_name))
 }
 
 
@@ -96,16 +105,19 @@ is.ggghost <- function(x) inherits(x, "ggghost")
 #' z <- z + labs(x = "x axis", y = "y axis")
 #' z <- z + geom_smooth()
 "+.gg" <- function(e1, e2) {
-    if (is.ggghost(e1)) {
-        new_obj <- structure(append(e1, match.call()[[3]]), class = c("ggghost", "gg"))
-        attr(new_obj, "data") <- attr(e1, "data")
-        if (!is.null(attr(e1, "suppdata"))) {
-            attr(new_obj, "suppdata") <- attr(e1, "suppdata")
-        }
-        return(new_obj)
-    } else {
-        return(e1 %+% e2)
+  if (is.ggghost(e1)) {
+    new_obj <- structure(
+      append(e1, match.call()[[3]]),
+      class = c("ggghost", "gg")
+    )
+    attr(new_obj, "data") <- attr(e1, "data")
+    if (!is.null(attr(e1, "suppdata"))) {
+      attr(new_obj, "suppdata") <- attr(e1, "suppdata")
     }
+    return(new_obj)
+  } else {
+    return(e1 %+% e2)
+  }
 }
 
 
@@ -125,10 +137,11 @@ is.ggghost <- function(x) inherits(x, "ggghost")
 #' See examples.
 #'
 #' @param e1 An object of class \code{ggghost}
-#' @param e2 A component to remove from \code{e1}
+#' @param e2 A component to remove from \code{e1} as either a string or a
+#' language object
 #'
-#' @return A \code{ggghost} structure with calls matching \code{e2} removed,
-#'   otherwise the same as \code{e1}
+#' @return A \code{ggghost} structure with calls (text) matching \code{e2}
+#'   removed, otherwise the same as \code{e1}
 #'
 #' @rdname minus-ggghost
 #' @export
@@ -144,33 +157,44 @@ is.ggghost <- function(x) inherits(x, "ggghost")
 #' z <- z + labs(x = "x axis", y = "y axis")
 #' z <- z + geom_smooth()
 #'
-#' ## remove the geom_smooth
-#' z - geom_smooth()
-#'
-#' ## remove the labels
-#' ## NOTE: argument must be present and able to be
-#' ## evaluated in scope
-#' z - labs(TRUE) # works
-#' z - labs(title) # works because of title(), but removes all labs()
+#' z - "labs"        # removes all labs
+#' z - "title"       # removes just the title
+#' z - "axis"        # removes the axis labels
+#' z - geom_point()  # removes points
+#' z - theme_bw()    # removes theme_bw()
 "-.gg" <- function(e1, e2) {
-    if      (ggplot2::is.theme(e1))  stop("not implemented for ggplot2 themes")
-    else if (ggplot2::is.ggplot(e1)) stop("not implemented for ggplot2 plots")
-    else if (is.ggghost(e1)) {
-        call_to_remove <- match.call()[[3]]
-        if (!any(grepl(sub("\\(.*$", "", call_to_remove)[1], as.character(summary(e1, combine = TRUE))))) {
-            warning("ggghostbuster: can't find that call in the call list", call. = FALSE)
-            return(e1)
-        } else if (sub("\\(.*$", "", call_to_remove)[1] == "ggplot") {
-            warning("ggghostbuster: can't remove the ggplot call itself", call. = FALSE)
-            return(e1)
-        }
-        new_obj <- structure(unclass(e1)[-grep(sub("\\(.*$", "", call_to_remove)[1], unclass(e1))], class = c("ggghost", "gg"))
-        attr(new_obj, "data") <- attr(e1, "data")
-        if (!is.null(attr(e1, "suppdata"))) {
-            attr(new_obj, "suppdata") <- attr(e1, "suppdata")
-        }
-        return(new_obj)
+  if (ggplot2::is.theme(e1))
+    stop("not implemented for ggplot2 themes") else if (ggplot2::is.ggplot(e1))
+    stop("not implemented for ggplot2 plots") else if (is.ggghost(e1)) {
+    call_to_remove <- match.call()[[3]]
+    if (
+      !any(grepl(
+        sub("\\(.*$", "", call_to_remove)[1],
+        as.character(summary(e1, combine = TRUE))
+      ))
+    ) {
+      warning(
+        "ggghostbuster: can't find that call in the call list",
+        call. = FALSE
+      )
+      return(e1)
+    } else if (sub("\\(.*$", "", call_to_remove)[1] == "ggplot") {
+      warning(
+        "ggghostbuster: can't remove the ggplot call itself",
+        call. = FALSE
+      )
+      return(e1)
     }
+    new_obj <- structure(
+      unclass(e1)[-grep(sub("\\(.*$", "", call_to_remove)[1], unclass(e1))],
+      class = c("ggghost", "gg")
+    )
+    attr(new_obj, "data") <- attr(e1, "data")
+    if (!is.null(attr(e1, "suppdata"))) {
+      attr(new_obj, "suppdata") <- attr(e1, "suppdata")
+    }
+    return(new_obj)
+  }
 }
 
 
@@ -182,10 +206,10 @@ is.ggghost <- function(x) inherits(x, "ggghost")
 #' @return The ggplot plot data (invisibly). Used for the side-effect of producing a ggplot plot.
 #' @export
 print.ggghost <- function(x, ...) {
-    recover_data(x, supp = TRUE)
-    plotdata <- eval(parse(text = paste(x, collapse = " + ")))
-    print(plotdata)
-    return(invisible(plotdata))
+  recover_data(x, supp = TRUE)
+  plotdata <- eval(parse(text = paste(x, collapse = " + ")))
+  print(plotdata)
+  return(invisible(plotdata))
 }
 
 
@@ -220,12 +244,10 @@ print.ggghost <- function(x, ...) {
 #' ## to inspect the data structure also captured, use str()
 #' str(z)
 summary.ggghost <- function(object, ...) {
-    dots <- eval(substitute(alist(...)))
-    combine = "combine" %in% names(dots)
-    if (combine)
-        return(paste(object, collapse = " + "))
-    else
-        return(utils::head(object, n = length(object)))
+  dots <- eval(substitute(alist(...)))
+  combine = "combine" %in% names(dots)
+  if (combine) return(paste(object, collapse = " + ")) else
+    return(utils::head(object, n = length(object)))
 }
 
 
@@ -259,12 +281,12 @@ summary.ggghost <- function(object, ...) {
 #' ## or
 #' subset(z, c(TRUE,TRUE,FALSE,FALSE,FALSE,TRUE))
 subset.ggghost <- function(x, ...) {
-    new_obj <- structure(unclass(x)[...], class = c("ggghost", "gg"))
-    attr(new_obj, "data") <- attr(x, "data")
-    if (!is.null(attr(x, "suppdata"))) {
-        attr(new_obj, "suppdata") <- attr(x, "suppdata")
-    }
-    return(new_obj)
+  new_obj <- structure(unclass(x)[...], class = c("ggghost", "gg"))
+  attr(new_obj, "data") <- attr(x, "data")
+  if (!is.null(attr(x, "suppdata"))) {
+    attr(new_obj, "suppdata") <- attr(x, "suppdata")
+  }
+  return(new_obj)
 }
 
 
@@ -295,19 +317,32 @@ subset.ggghost <- function(x, ...) {
 #' ## create an animation showing the process of building up a plot
 #' reanimate(z, "mycoolplot.gif")
 #' }
-reanimate <- function(object, gifname = "ggghost.gif", interval = 1, ani.width = 600, ani.height = 600) {
-    stopifnot(length(object) > 1)
-    animation::ani.options(interval = interval, ani.width = ani.width, ani.height = ani.height)
-    animation::saveGIF({
-        recover_data(object, supp = TRUE)
-        ggtmp <- object[[1]]
-        print(eval(ggtmp))
-        for (i in 2:length(object)) {
-            ggtmp <- eval(ggtmp) + eval(object[[i]])
-            print(ggtmp)
-        }
-    }, movie.name = gifname)
-    return(invisible(TRUE))
+reanimate <- function(
+  object,
+  gifname = "ggghost.gif",
+  interval = 1,
+  ani.width = 600,
+  ani.height = 600
+) {
+  stopifnot(length(object) > 1)
+  animation::ani.options(
+    interval = interval,
+    ani.width = ani.width,
+    ani.height = ani.height
+  )
+  animation::saveGIF(
+    {
+      recover_data(object, supp = TRUE)
+      ggtmp <- object[[1]]
+      print(eval(ggtmp))
+      for (i in 2:length(object)) {
+        ggtmp <- eval(ggtmp) + eval(object[[i]])
+        print(ggtmp)
+      }
+    },
+    movie.name = gifname
+  )
+  return(invisible(TRUE))
 }
 
 
@@ -339,45 +374,60 @@ lazarus <- reanimate
 #'   in \code{ggplot(data)}
 #' @export
 recover_data <- function(x, supp = TRUE) {
+  ## create a local copy of the data
+  y <- yname <- attr(x, "data")$data_name
+  assign(y, attr(x, "data")$data, envir = environment())
 
-    ## create a local copy of the data
-    y <- yname <- attr(x, "data")$data_name
-    assign(y, attr(x, "data")$data, envir = environment())
-
-    ## if the data exists in the calling frame, but has changed since
-    ## being saved to the ggghost object, produce a warning (but do it anyway)
-    parent <- parent.frame()
-    optout_data <- ""
-    if (exists(y, where = parent)) {
-        if (!identical(get(y, envir = environment()), get(y, envir = parent))) {
-            warning(paste0("Potentially overwriting object ", yname, " in working space, but object has changed"), call. = FALSE, immediate. = TRUE)
-            ## this should really be ggghost::in_the_shell as per @hrbrmstr's suggestion
-            if (interactive()) {
-                optout_data <- readline("Press 'n' to opt out of overwriting ")
-            }
-        }
+  ## if the data exists in the calling frame, but has changed since
+  ## being saved to the ggghost object, produce a warning (but do it anyway)
+  parent <- parent.frame()
+  optout_data <- ""
+  if (exists(y, where = parent)) {
+    if (!identical(get(y, envir = environment()), get(y, envir = parent))) {
+      warning(
+        paste0(
+          "Potentially overwriting object ",
+          yname,
+          " in working space, but object has changed"
+        ),
+        call. = FALSE,
+        immediate. = TRUE
+      )
+      ## this should really be ggghost::in_the_shell as per @hrbrmstr's suggestion
+      if (interactive()) {
+        optout_data <- readline("Press 'n' to opt out of overwriting ")
+      }
     }
+  }
 
-    if (optout_data != "n") assign(yname, attr(x, "data")$data, envir = parent)
+  if (optout_data != "n") assign(yname, attr(x, "data")$data, envir = parent)
 
-    if (supp) {
-
-        optout_supp_data <- ""
-        supp_list <- supp_data(x)
-        if (length(supp_list) > 0) {
-            if (exists(supp_list[[1]], where = parent)) {
-                if (!identical(supp_list[[2]], get(supp_list[[1]], envir = parent))) {
-                    warning(paste0("Potentially overwriting object ", supp_list[[1]], " in working space, but object has changed"), call. = FALSE, immediate. = TRUE)
-                    if (interactive()) {
-                        optout_supp_data <- readline("Press 'n' to opt out of overwriting ")
-                    }
-                }
-            }
-        if (optout_supp_data != "n") assign(supp_list[[1]], supp_list[[2]], envir = parent)
+  if (supp) {
+    optout_supp_data <- ""
+    supp_list <- supp_data(x)
+    if (length(supp_list) > 0) {
+      if (exists(supp_list[[1]], where = parent)) {
+        if (!identical(supp_list[[2]], get(supp_list[[1]], envir = parent))) {
+          warning(
+            paste0(
+              "Potentially overwriting object ",
+              supp_list[[1]],
+              " in working space, but object has changed"
+            ),
+            call. = FALSE,
+            immediate. = TRUE
+          )
+          if (interactive()) {
+            optout_supp_data <- readline("Press 'n' to opt out of overwriting ")
+          }
         }
+      }
+      if (optout_supp_data != "n")
+        assign(supp_list[[1]], supp_list[[2]], envir = parent)
     }
+  }
 
-    return(invisible(NULL))
+  return(invisible(NULL))
 }
 
 
@@ -390,12 +440,10 @@ recover_data <- function(x, supp = TRUE) {
 #'
 #' @export
 supp_data <- function(x) {
+  value <- attr(x, "suppdata")
+  # if (length(value) == 0 & interactive()) warning("ggghostbuster: no supplementary data found", call. = FALSE)
 
-    value <- attr(x, "suppdata")
-    # if (length(value) == 0 & interactive()) warning("ggghostbuster: no supplementary data found", call. = FALSE)
-
-    return(value)
-
+  return(value)
 }
 
 #' Attach supplementary data to a ggghost object
@@ -409,20 +457,22 @@ supp_data <- function(x) {
 #'
 #' @export
 "supp_data<-" <- function(x, value) {
-
-    if (is.ggghost(x)) {
-
-        if (length(attr(x, "suppdata")) > 0) {
-            warning("ggghostbuster: can't assign more than one supplementary data set to a ggghost object.", call. = FALSE)
-            return(x)
-        }
-
-        attr(x, "suppdata") <- list(supp_data_name = as.character(substitute(value)),
-                                    supp_data      = value)
-
-    } else {
-        stop("attempt to attach supplementary data to a non-ggghost object")
+  if (is.ggghost(x)) {
+    if (length(attr(x, "suppdata")) > 0) {
+      warning(
+        "ggghostbuster: can't assign more than one supplementary data set to a ggghost object.",
+        call. = FALSE
+      )
+      return(x)
     }
 
-    return(x)
+    attr(x, "suppdata") <- list(
+      supp_data_name = as.character(substitute(value)),
+      supp_data = value
+    )
+  } else {
+    stop("attempt to attach supplementary data to a non-ggghost object")
+  }
+
+  return(x)
 }

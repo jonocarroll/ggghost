@@ -1,3 +1,8 @@
+# CHANGES in ggghost 0.2.3
+==========
+
+* align to new ggplot2 release (changed examples only)
+
 # CHANGES in ggghost 0.2.1
 ==========
 

@@ -96,7 +96,10 @@ z2 <- z + geom_line(col = "coral")
 z2 - geom_point()
 ```
 
-Calls are removed based on matching to the regex `\\(.*$` (from the first bracket to the end of the call), so arguments are irrelevant.
+Calls are removed based on matching to the regex `\\(.*$` (from the first
+bracket to the end of the call), so arguments are irrelevant. The possible
+matches can be found with `summary(z)` as above
+
 
 The object still generates all the `grob` info, it's just stored as calls rather than a completed image.
 ```{r, fig.show='hide'}

@@ -9,11 +9,12 @@
 \arguments{
 \item{e1}{An object of class \code{ggghost}}
 
-\item{e2}{A component to remove from \code{e1}}
+\item{e2}{A component to remove from \code{e1} as either a string or a
+language object}
 }
 \value{
-A \code{ggghost} structure with calls matching \code{e2} removed,
-otherwise the same as \code{e1}
+A \code{ggghost} structure with calls (text) matching \code{e2}
+removed, otherwise the same as \code{e1}
 }
 \description{
 Calls can be removed from the \code{ggghost} object via regex matching of the
@@ -47,6 +48,9 @@ z - geom_smooth()
 ## remove the labels
 ## NOTE: argument must be present and able to be
 ## evaluated in scope
-z - labs(TRUE) # works
-z - labs(title) # works because of title(), but removes all labs()
+z - "labs"        # removes all labs
+z - "title"       # removes just the title
+z - "axis"        # removes the axis labels
+z - geom_point()  # removes points
+z - theme_bw()    # removes theme_bw()
 }

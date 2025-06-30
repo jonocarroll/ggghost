@@ -1,5 +1,6 @@
 
 <!-- badges: start -->
+
 [![R-CMD-check](https://github.com/jonocarroll/ggghost/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jonocarroll/ggghost/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
@@ -54,12 +55,12 @@ call with each logical call on a new line (@hrbrmstr style)
 tmpdata <- data.frame(x = 1:100, y = rnorm(100))
 head(tmpdata)
 #>   x          y
-#> 1 1  1.8318017
-#> 2 2 -0.8719125
-#> 3 3  0.4451759
-#> 4 4 -0.6943876
-#> 5 5 -0.2814022
-#> 6 6 -0.6976087
+#> 1 1  0.3520107
+#> 2 2  0.6707094
+#> 3 3 -0.1543823
+#> 4 4 -0.5308320
+#> 5 5  0.1707965
+#> 6 6  0.8649948
 ```
 
 ``` r
@@ -135,20 +136,21 @@ z2 - geom_point()
 ![](README_supp/README-unnamed-chunk-10-1.png)<!-- -->
 
 Calls are removed based on matching to the regex `\\(.*$` (from the
-first bracket to the end of the call), so arguments are irrelevant.
+first bracket to the end of the call), so arguments are irrelevant. The
+possible matches can be found with `summary(z)` as above
 
 The object still generates all the `grob` info, it’s just stored as
 calls rather than a completed image.
 
 ``` r
 str(print(z))
-#> List of 11
-#>  $ data       :'data.frame': 100 obs. of  2 variables:
-#>   ..$ x: int [1:100] 1 2 3 4 5 6 7 8 9 10 ...
-#>   ..$ y: num [1:100] 1.832 -0.872 0.445 -0.694 -0.281 ...
-#>  $ layers     :List of 2
+#> <ggplot2::ggplot>
+#>  @ data       :'data.frame': 100 obs. of  2 variables:
+#>  .. $ x: int  1 2 3 4 5 6 7 8 9 10 ...
+#>  .. $ y: num  0.352 0.671 -0.154 -0.531 0.171 ...
+#>  @ layers     :List of 2
+#>  .. $ geom_point :Classes 'LayerInstance', 'Layer', 'ggproto', 'gg' <ggproto object: Class LayerInstance, Layer, gg>
 #> [... truncated ...]
-#>  - attr(*, "class")= chr [1:2] "gg" "ggplot"
 ```
 
 Since the `grob` info is still produced, normal `ggplot2` operators can
@@ -227,7 +229,7 @@ str(z)
 #>   ..$ data_name: chr "tmpdata"
 #>   ..$ data     :'data.frame':    100 obs. of  2 variables:
 #>   .. ..$ x: int [1:100] 1 2 3 4 5 6 7 8 9 10 ...
-#>   .. ..$ y: num [1:100] 1.832 -0.872 0.445 -0.694 -0.281 ...
+#>   .. ..$ y: num [1:100] 0.352 0.671 -0.154 -0.531 0.171 ...
 #>  - attr(*, "suppdata")=List of 2
 #>   ..$ supp_data_name: chr "myColors"
 #>   ..$ supp_data     : Named chr [1:3] "red" "blue" "green"
@@ -236,12 +238,12 @@ str(z)
 recover_data(z, supp = TRUE)
 head(tmpdata)
 #>   x          y
-#> 1 1  1.8318017
-#> 2 2 -0.8719125
-#> 3 3  0.4451759
-#> 4 4 -0.6943876
-#> 5 5 -0.2814022
-#> 6 6 -0.6976087
+#> 1 1  0.3520107
+#> 2 2  0.6707094
+#> 3 3 -0.1543823
+#> 4 4 -0.5308320
+#> 5 5  0.1707965
+#> 6 6  0.8649948
 
 myColors
 #>   alpha    beta   gamma 
